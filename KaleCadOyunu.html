@@ -4,45 +4,808 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#101827">
-  <meta name="description" content="KALECAD — 100 soruluk AutoCAD ve SketchUp bilgi yarışması">
+  <meta name="description" content="KALECAD — 200 soruluk AutoCAD ve SketchUp bilgi yarışması">
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <title>KALECAD | Bilgi Yarışması</title>
   <style>
-    :root{color-scheme:dark;--bg:#101827;--line:#354762;--text:#f2f6ff;--muted:#bdc9dc;--blue:#72a7ff;--cyan:#53d5e8;--green:#43d69a;--red:#ff7777;--gold:#ffcf70}
-    *{box-sizing:border-box}body{margin:0;min-height:100vh;padding:clamp(8px,2vw,20px);display:grid;place-items:center;background:radial-gradient(ellipse at 15% 5%,#315178 0,transparent 35%),radial-gradient(ellipse at 90% 90%,#284b4c 0,transparent 34%),var(--bg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--text)}button{font:inherit;color:inherit;touch-action:manipulation}.app{width:min(100%,800px);overflow:hidden;background:rgba(22,33,51,.98);border:1px solid var(--line);border-radius:22px;box-shadow:0 22px 65px #0007}.header{padding:12px clamp(13px,3vw,24px);display:flex;align-items:center;justify-content:space-between;gap:8px;border-bottom:1px solid var(--line);background:#121d2e;min-width:0}.brand{display:flex;align-items:center;gap:9px;min-width:0;flex:1}.brand img{display:block;width:clamp(36px,7vw,48px);height:auto;aspect-ratio:1;object-fit:contain;flex:0 0 auto}.header h1{font-size:clamp(1rem,4vw,1.65rem);margin:0;letter-spacing:.06em;white-space:nowrap}.tag{font-size:clamp(.56rem,1.8vw,.72rem);font-weight:850;color:#081321;background:linear-gradient(100deg,var(--blue),var(--cyan));padding:7px 9px;border-radius:99px;white-space:nowrap;flex:0 1 auto}.screen{display:none;padding:clamp(12px,3vw,24px)}.screen.active{display:block}
-    .hero{position:relative;overflow:hidden;padding:clamp(18px,4vw,30px);border:1px solid #49648a;border-radius:20px;background:linear-gradient(125deg,#203c60f5,#172439f2),repeating-linear-gradient(0deg,transparent 0 29px,#ffffff0a 30px),repeating-linear-gradient(90deg,transparent 0 29px,#ffffff0a 30px)}.eyebrow{margin:0 0 8px;color:#90baff;font-size:.73rem;font-weight:900;letter-spacing:.12em}.hero h2{margin:0;font-size:clamp(1.7rem,6vw,3rem);line-height:1.04;letter-spacing:-.04em}.hero h2 span{color:var(--cyan)}.hero-copy{max-width:570px;color:var(--muted);line-height:1.55;font-size:clamp(.92rem,2.2vw,1rem);margin:10px 0 0}.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:16px}.btn{border:1px solid var(--line);background:#223149;border-radius:12px;padding:12px 15px;font-weight:750;cursor:pointer;transition:transform .15s,border-color .15s}.btn:hover,.btn:focus-visible{border-color:var(--blue);background:#2b3c58}.btn:active{transform:scale(.98)}.primary{border:0;color:#091322;background:linear-gradient(100deg,var(--blue),var(--cyan));font-weight:900}.actions .btn{min-height:48px;flex:1;min-width:155px}.chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}.chip{padding:7px 10px;border:1px solid #394d69;border-radius:99px;background:#172337;color:#dce9ff;font-size:.78rem;font-weight:750}
-    .stats{display:flex;justify-content:space-between;gap:9px;color:var(--muted);font-size:.9rem;margin-bottom:10px}.track{height:8px;border-radius:20px;background:#29364b;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,var(--blue),var(--cyan),#a8f08b);transition:width .25s}.categories{display:flex;gap:8px;margin:14px 0;flex-wrap:wrap}.categories .btn{flex:1;min-width:90px;padding:10px}.selected{border-color:var(--blue);background:#2b4263}.question-card{padding:clamp(15px,3vw,22px);border:1px solid #3b5272;border-radius:16px;background:linear-gradient(135deg,#20324b,#19253a);margin-top:12px}.kicker{color:#a8c9ff;font-weight:850;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase}.question{font-size:clamp(1.1rem,3.5vw,1.65rem);line-height:1.4;margin:8px 0 0}.answers{display:grid;gap:9px;margin-top:12px}.answer{text-align:left;min-height:46px}.answer.correct{border-color:var(--green);background:#163d34}.answer.wrong{border-color:var(--red);background:#452a35}.answer:disabled{opacity:1}.feedback{min-height:24px;font-weight:800;margin:11px 0 0}.good{color:var(--green)}.bad{color:var(--red)}.hidden{display:none!important}.back{width:100%;margin-top:11px;background:transparent}.result-head{text-align:center}.result-head h2{margin:0 0 4px}.result-head p{margin:0;color:var(--muted)}.scoreboard{width:100%;border-collapse:collapse;border-radius:13px;overflow:hidden;background:#19263a;margin-top:14px}.scoreboard th,.scoreboard td{padding:11px 14px;border-bottom:1px solid #33445e;text-align:left}.scoreboard th{color:#9fc3ff;font-size:.78rem;text-transform:uppercase;letter-spacing:.05em}.scoreboard td:last-child,.scoreboard th:last-child{text-align:right;font-weight:800}.rank{margin-top:13px;padding:14px;text-align:center;border:1px solid #6c5a36;border-radius:14px;background:linear-gradient(120deg,#4b3b20,#263047);color:#ffe09b;font-size:1.15rem;font-weight:900}.rank small{display:block;color:#e3d7bd;font-size:.88rem;font-weight:600;margin-top:4px}.notice{padding:16px;text-align:center;color:var(--muted)}
-    .confetti-layer{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:9999}.confetti{position:absolute;left:var(--x);top:var(--y);animation:burst 1.85s cubic-bezier(.12,.7,.25,1) forwards;will-change:transform,opacity}.brand-chip{padding:6px 9px;border:1px solid #ffffff99;border-radius:8px;color:#fff;background:var(--c);font-size:clamp(10px,2vw,13px);font-weight:900;white-space:nowrap;box-shadow:0 3px 12px #0007}.spark{width:9px;height:9px;border-radius:2px;background:var(--c);animation:sparkle 1.4s ease-out forwards}@keyframes burst{0%{opacity:0;transform:translate(0,0) scale(.5) rotate(0)}12%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.7) rotate(var(--rot))}}@keyframes sparkle{0%{opacity:0;transform:scale(.2)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(0) rotate(180deg)}}
-    @media(max-width:600px){body{display:block;padding:6px}.app{margin:6px auto;border-radius:16px}.header{padding:10px 11px;gap:5px}.brand{gap:7px}.tag{padding:6px 7px}.screen{padding:11px}.hero{padding:18px 15px}.actions{display:grid;grid-template-columns:1fr;gap:7px}.actions .btn{width:100%;min-height:44px}.chips{gap:5px}.chip{font-size:.7rem;padding:6px 8px}.stats{font-size:.8rem}.scoreboard th,.scoreboard td{padding:10px 8px;font-size:.84rem}}
-    @media(max-width:360px){.header h1{font-size:.9rem}.brand img{width:32px}.tag{font-size:.53rem;padding:5px 6px}}
-    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}.confetti,.spark{animation-duration:1s}}
+    :root {
+      color-scheme: dark;
+      --bg: #0f172a;
+      --bg2: #111827;
+      --panel: rgba(17, 24, 39, 0.92);
+      --card: rgba(30, 41, 59, 0.96);
+      --line: rgba(148, 163, 184, 0.24);
+      --text: #eef4ff;
+      --muted: #bfd3f4;
+      --blue: #60a5fa;
+      --cyan: #5eead4;
+      --gold: #facc15;
+      --green: #22c55e;
+      --red: #ef4444;
+      --shadow: rgba(15, 23, 42, 0.7);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      background:
+        radial-gradient(circle at top left, rgba(96, 165, 250, 0.18), transparent 25%),
+        radial-gradient(circle at top right, rgba(94, 234, 212, 0.14), transparent 24%),
+        linear-gradient(180deg, #0b1220 0%, #111827 50%, #0f172a 100%);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: clamp(10px, 3vw, 28px);
+    }
+
+    .app {
+      width: min(100%, 960px);
+      min-height: min(92vh, 760px);
+      overflow: hidden;
+      border-radius: 24px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: 0 18px 60px var(--shadow);
+      position: relative;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(15, 23, 42, 0.9);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      display: block;
+      border-radius: 10px;
+      background: rgba(255,255,255,0.06);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: clamp(1.3rem, 2vw, 2rem);
+      letter-spacing: 0.06em;
+    }
+
+    .tag {
+      color: var(--muted);
+      font-size: 0.77rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(148, 163, 184, 0.06);
+      white-space: nowrap;
+    }
+
+    .screen {
+      display: none;
+      padding: clamp(18px, 2vw, 30px);
+    }
+
+    .screen.active { display: block; }
+
+    .hero {
+      display: grid;
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .eyebrow {
+      margin: 0;
+      color: var(--cyan);
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(2.2rem, 5vw, 4rem);
+      line-height: 0.96;
+      letter-spacing: -0.06em;
+    }
+
+    .hero h2 span {
+      color: var(--gold);
+    }
+
+    .lead {
+      margin: 0;
+      max-width: 620px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .tile, .btn, .answer {
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(30,41,59,.9), rgba(15,23,42,.9));
+      color: var(--text);
+      transition: transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+      cursor: pointer;
+    }
+
+    .tile {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: flex-start;
+      min-height: 160px;
+      padding: 18px 18px 14px;
+      text-align: left;
+      box-shadow: 0 10px 22px rgba(2, 6, 23, 0.28);
+    }
+
+    .tile:hover, .btn:hover, .answer:hover {
+      transform: translateY(-1px);
+      border-color: rgba(96,165,250,.9);
+    }
+
+    .icon {
+      font-size: 2rem;
+      display: inline-flex;
+      background: rgba(96,165,250,.12);
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tile b {
+      font-size: 1.15rem;
+      letter-spacing: 0.01em;
+    }
+
+    .tile span:last-child {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 0.92rem;
+    }
+
+    .categories {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 18px 0 8px;
+    }
+
+    .btn {
+      padding: 10px 14px;
+      font-weight: 700;
+      font-size: 0.98rem;
+      min-height: 44px;
+    }
+
+    .btn.selected {
+      background: linear-gradient(180deg, rgba(96,165,250,.28), rgba(30,41,59,.9));
+      border-color: rgba(96,165,250,.9);
+      box-shadow: 0 0 0 1px rgba(96,165,250,.28) inset;
+    }
+
+    .btn.primary {
+      background: linear-gradient(180deg, rgba(34,197,94,.3), rgba(22,101,52,.8));
+      border-color: rgba(34,197,94,.8);
+    }
+
+    .stats {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 8px 0 14px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .track {
+      height: 12px;
+      background: rgba(148,163,184,.12);
+      border-radius: 999px;
+      overflow: hidden;
+      margin-bottom: 20px;
+      border: 1px solid var(--line);
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--blue), var(--cyan));
+      border-radius: inherit;
+      transition: width .2s ease;
+    }
+
+    .question {
+      margin: 0 0 18px;
+      font-size: clamp(1.4rem, 2.4vw, 2rem);
+      line-height: 1.45;
+    }
+
+    .answers {
+      display: grid;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .answer {
+      width: 100%;
+      text-align: left;
+      padding: 16px 18px;
+      font-size: 1.02rem;
+      line-height: 1.5;
+      position: relative;
+    }
+
+    .answer.correct {
+      border-color: rgba(34,197,94,.9);
+      background: linear-gradient(180deg, rgba(34,197,94,.28), rgba(15,23,42,.9));
+    }
+
+    .answer.wrong {
+      border-color: rgba(239,68,68,.9);
+      background: linear-gradient(180deg, rgba(239,68,68,.22), rgba(15,23,42,.9));
+    }
+
+    .feedback {
+      min-height: 28px;
+      margin: 16px 0 0;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .feedback.good { color: var(--green); }
+    .feedback.bad { color: var(--red); }
+    .feedback.info { color: var(--cyan); }
+
+    .inline-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .hidden { display: none !important; }
+
+    .result-head {
+      margin-bottom: 14px;
+    }
+
+    .result-head h2 {
+      margin: 0 0 6px;
+      font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .result-head p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .scoreboard {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      background: rgba(15,23,42,.6);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .scoreboard th,
+    .scoreboard td {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+    }
+
+    .scoreboard th {
+      color: var(--muted);
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(148,163,184,.06);
+    }
+
+    .scoreboard tr:last-child td { border-bottom: none; }
+
+    .big-score {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+    }
+
+    .confetti-layer {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 999;
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 16px;
+      border-radius: 4px;
+      opacity: 0.9;
+      animation: fall 1.6s ease-in forwards;
+    }
+
+    @keyframes fall {
+      0% { transform: translate3d(0, -20px, 0) rotate(0deg) scale(1); opacity: 1; }
+      100% { transform: translate3d(var(--x), 100vh, 0) rotate(var(--rot)) scale(.8); opacity: 0; }
+    }
+
+    @media (max-width: 700px) {
+      .header {
+        padding: 14px 16px;
+      }
+
+      .brand {
+        gap: 8px;
+      }
+
+      .brand img {
+        width: 34px;
+        height: 34px;
+      }
+
+      .tag {
+        display: none;
+      }
+
+      .menu-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .screen {
+        padding: 16px;
+      }
+
+      .answer {
+        padding: 14px 15px;
+      }
+    }
   </style>
 </head>
 <body>
-<main class="app">
-  <header class="header"><div class="brand"><img src="favicon.svg" alt="KALECAD kale ve cetvel simgesi"><h1>KALECAD</h1></div><span class="tag">AutoCAD • SketchUp</span></header>
-  <section id="home" class="screen active"><div class="hero"><p class="eyebrow">⚡ ÇİZİM BİLGİNİ TEST ET</p><h2>Komutları biliyor<br><span>musun?</span></h2><p class="hero-copy">Her turda yeni sorularla yarış, puanını topla ve seviyeni keşfet!</p><div class="actions"><button class="btn primary" id="start" disabled>🚀 10 soruluk tura başla</button><button class="btn" id="chooseCategory" disabled>📐 Kategori seç</button></div></div><div class="chips"><span class="chip">📚 100 soru</span><span class="chip">🎲 Tekrarı önleyen turlar</span><span class="chip" id="best-chip">🏆 Rekor: —</span></div></section>
-  <section id="quiz" class="screen"><div class="stats"><span id="q-count"></span><span id="score">Puan: 0</span></div><div class="track"><div class="bar" id="bar"></div></div><div class="categories" aria-label="Soru kategorisi seç"><button class="btn selected" data-cat="all">Karışık</button><button class="btn" data-cat="AutoCAD">AutoCAD</button><button class="btn" data-cat="SketchUp">SketchUp</button></div><div class="question-card"><div class="kicker" id="kicker">Komut sorusu</div><h2 class="question" id="question">Sorular yükleniyor…</h2></div><div id="answers" class="answers"></div><p id="feedback" class="feedback" aria-live="polite"></p><button id="next" class="btn primary hidden">Sonraki soru</button><button class="btn back" data-home>Ana ekrana dön</button></section>
-  <section id="result" class="screen"><div class="result-head"><h2>🏁 Tur tamamlandı!</h2><p>Skor tablosu ve seviyen</p></div><table class="scoreboard"><thead><tr><th>Gösterge</th><th>Sonuç</th></tr></thead><tbody id="scoreboard-body"></tbody></table><div class="rank" id="rank"></div><button class="btn primary" id="replay">🎲 Yeni sorularla tekrar oyna</button><button class="btn back" data-home>Ana ekrana dön</button></section>
-  <section id="loading" class="screen"><p class="notice" id="loading-message">Soru havuzu hazırlanıyor…</p></section>
-</main><div class="confetti-layer" id="confetti" aria-hidden="true"></div>
-<script>
-let Q=[],category='all',list=[],index=0,points=0,locked=false;
-const screens=[...document.querySelectorAll('.screen')];
-function show(id){screens.forEach(s=>s.classList.toggle('active',s.id===id))}
-function shuffled(a){const out=[...a];for(let i=out.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[out[i],out[j]]=[out[j],out[i]]}return out}
-function storageGet(k,fallback=''){try{return localStorage.getItem(k)??fallback}catch{return fallback}}
-function storageSet(k,v){try{localStorage.setItem(k,v)}catch{}}
-function historyKey(){return `kalecad-seen-v3-${category}`}
-function updateBest(){document.getElementById('best-chip').textContent=`🏆 Rekor: ${storageGet('kalecad-best-v3','0')} / 10`}
-async function loadQuestions(){try{const url=new URL('index.html',location.href);url.searchParams.set('v','questionbank1');const response=await fetch(url,{cache:'no-store'});if(!response.ok)throw Error('Soru bankası yüklenemedi');const doc=new DOMParser().parseFromString(await response.text(),'text/html');const script=[...doc.scripts].map(s=>s.textContent).find(s=>s.includes('const Q=[];')&&s.includes('function add('));if(!script)throw Error('Soru listesi bulunamadı');const block=script.match(/const Q=\[\];([\s\S]*?)let category=/);if(!block)throw Error('Soru listesi okunamadı');Q=new Function(`const Q=[];${block[1]}return Q;`)();if(Q.length<100)throw Error(`100 soru yüklenemedi (${Q.length})`);document.getElementById('start').disabled=false;document.getElementById('chooseCategory').disabled=false;updateBest()}catch(error){document.getElementById('loading-message').textContent='Sorular yüklenemedi. Ana sayfayı yenileyip tekrar deneyin.';document.getElementById('start').disabled=true;console.error(error)}}
-function setCategory(cat){category=cat;document.querySelectorAll('[data-cat]').forEach(b=>b.classList.toggle('selected',b.dataset.cat===cat))}
-function startQuiz(){if(!Q.length)return;const pool=category==='all'?Q:Q.filter(q=>q.c===category);let seen=[];try{seen=JSON.parse(storageGet(historyKey(),'[]'))}catch{seen=[]}const fresh=pool.filter(q=>!seen.includes(q.id));if(fresh.length<10){const freshIds=fresh.map(q=>q.id),needed=10-fresh.length;fresh.push(...shuffled(pool.filter(q=>!freshIds.includes(q.id))).slice(0,needed));seen=[]}list=shuffled(fresh).slice(0,10);storageSet(historyKey(),JSON.stringify([...new Set([...seen,...list.map(q=>q.id)])]));index=0;points=0;show('quiz');renderQuestion()}
-function renderQuestion(){locked=false;const item=list[index];document.getElementById('q-count').textContent=`Soru ${index+1} / ${list.length} • ${item.c}`;document.getElementById('score').textContent=`Puan: ${points}`;document.getElementById('bar').style.width=`${index/list.length*100}%`;document.getElementById('question').textContent=item.q;document.getElementById('kicker').textContent=item.c==='AutoCAD'?'▰ AutoCAD komut sorusu':'▰ SketchUp araç sorusu';const fb=document.getElementById('feedback');fb.textContent='';fb.className='feedback';document.getElementById('next').classList.add('hidden');const box=document.getElementById('answers');box.replaceChildren();shuffled(item.a).forEach(answer=>{const b=document.createElement('button');b.type='button';b.className='btn answer';b.textContent=answer;b.onclick=()=>choose(b,answer,item.x);box.append(b)})}
-function choose(btn,answer,correct){if(locked)return;locked=true;document.querySelectorAll('.answer').forEach(b=>{b.disabled=true;if(b.textContent===correct)b.classList.add('correct')});const fb=document.getElementById('feedback');if(answer===correct){points++;fb.textContent=['Doğru! Harika iş!','Tam isabet!','Süpersin!','Efsane cevap!'][Math.random()*4|0];fb.classList.add('good');burstConfetti()}else{btn.classList.add('wrong');fb.textContent=`Bu kez olmadı. Doğru cevap: ${correct}`;fb.classList.add('bad')}document.getElementById('score').textContent=`Puan: ${points}`;const next=document.getElementById('next');next.textContent=index===list.length-1?'🏆 Sonuç tablosunu gör':'➡️ Sonraki soru';next.classList.remove('hidden')}
-function burstConfetti(){const layer=document.getElementById('confetti'),colors=['#e6292e','#ff6b5f','#f4f7ff','#f2bd43','#168b58','#37b878','#8ce0a7','#53d5e8','#72a7ff','#ffcf70'],brands=[{name:'AutoCAD',bg:'#d9262e'},{name:'SketchUp',bg:'#168b58'}];for(let i=0;i<76;i++){const angle=Math.random()*Math.PI*2,d=110+Math.random()*Math.min(innerWidth*.52,380),p=document.createElement('span');p.className='confetti';p.style.setProperty('--x',`${innerWidth/2}px`);p.style.setProperty('--y',`${Math.max(90,innerHeight*.38)}px`);p.style.setProperty('--dx',`${Math.cos(angle)*d}px`);p.style.setProperty('--dy',`${Math.sin(angle)*d+80}px`);p.style.setProperty('--rot',`${Math.random()*900-450}deg`);if(i%4===0){const brand=brands[(i/4|0)%2];p.classList.add('brand-chip');p.style.setProperty('--c',brand.bg);p.textContent=brand.name}else{p.classList.add('spark');p.style.setProperty('--c',colors[Math.random()*colors.length|0]);p.style.width=`${5+Math.random()*9}px`;p.style.height=`${5+Math.random()*9}px`}layer.append(p);p.addEventListener('animationend',()=>p.remove(),{once:true})}}
-function finishRound(){show('result');const wrong=list.length-points,pct=Math.round(points/list.length*100);let title,detail;if(points>=9){title='🌟 Uzmansın!';detail='Harika sonuç — CAD komutlarına çok hâkimsin.'}else if(points>=7){title='🏆 Çok iyi seviyedesin!';detail='Bilgin güçlü; biraz pratikle uzmanlığa ulaşırsın.'}else if(points>=4){title='👍 Orta seviyesin';detail='İyi gidiyorsun. Biraz daha çalışarak puanını artırabilirsin.'}else{title='💪 Biraz daha çalışmalısın';detail='Komutları tekrar et ve yeni sorularla yeniden dene.'}let best=Number(storageGet('kalecad-best-v3','0')),record=points>best;if(record){best=points;storageSet('kalecad-best-v3',String(best))}const rows=[['Doğru cevap',`${points} / ${list.length}`],['Yanlış cevap',`${wrong} / ${list.length}`],['Başarı oranı',`${pct}%`],['En iyi tur',`${best} / 10`]];document.getElementById('scoreboard-body').innerHTML=rows.map(([a,b])=>`<tr><td>${a}</td><td>${b}</td></tr>`).join('');document.getElementById('rank').innerHTML=`${title}<small>${detail}${record?' • Yeni rekor!':''}</small>`;document.getElementById('bar').style.width='100%';updateBest()}
-document.getElementById('next').onclick=()=>{if(++index<list.length)renderQuestion();else finishRound()};document.getElementById('replay').onclick=startQuiz;document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>show('home'));document.getElementById('start').onclick=()=>{setCategory('all');startQuiz()};document.getElementById('chooseCategory').onclick=()=>show('quiz');document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>{setCategory(b.dataset.cat);startQuiz()});updateBest();loadQuestions();
-</script>
+  <main class="app">
+    <header class="header">
+      <div class="brand">
+        <img src="favicon.svg" alt="KALECAD logo">
+        <h1>KALECAD</h1>
+      </div>
+      <span class="tag">AutoCAD • SketchUp</span>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero">
+        <p class="eyebrow">⚡ ÇİZİM BİLGİNİ TEST ET</p>
+        <h2>Komutları biliyor<br><span>musun?</span></h2>
+        <p class="lead">200 soruluk hızlı CAD yarışmasına hazır mısın? AutoCAD ve SketchUp bilgini sınırla, skoru görün ve en iyi turu yakala.</p>
+      </div>
+
+      <div class="categories" aria-label="Kategoriler">
+        <button class="btn selected" data-cat="all" type="button">Karışık</button>
+        <button class="btn" data-cat="AutoCAD" type="button">AutoCAD</button>
+        <button class="btn" data-cat="SketchUp" type="button">SketchUp</button>
+      </div>
+
+      <div class="menu-grid">
+        <button class="tile" id="start" type="button">
+          <span class="icon">🎯</span>
+          <b>Başlat</b>
+          <span>200 soruluk havuzu başlat ve kartları aç.</span>
+        </button>
+        <button class="tile" id="restart" type="button">
+          <span class="icon">🔄</span>
+          <b>Yeniden Oyna</b>
+          <span>Turunu sıfırla ve aynı anda yeni bir deneme başlat.</span>
+        </button>
+      </div>
+    </section>
+
+    <section id="quiz" class="screen">
+      <div class="stats">
+        <span id="q-count">Soru 1 / 200</span>
+        <span id="score">Puan: 0</span>
+      </div>
+
+      <div class="track">
+        <div class="bar" id="bar"></div>
+      </div>
+
+      <h2 class="question" id="question"></h2>
+      <div class="answers" id="answers"></div>
+      <p class="feedback info" id="feedback" aria-live="polite"></p>
+
+      <div class="inline-actions">
+        <button class="btn primary hidden" id="next" type="button">Sonraki soru</button>
+        <button class="btn" data-home type="button">Ana menü</button>
+      </div>
+    </section>
+
+    <section id="result" class="screen">
+      <div class="result-head">
+        <h2>🏁 Tur tamamlandı!</h2>
+        <p>Sonuç tablon ve seviyen burada.</p>
+      </div>
+
+      <table class="scoreboard">
+        <thead>
+          <tr>
+            <th>Gösterge</th>
+            <th>Sonuç</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Doğru</td>
+            <td id="result-correct">0</td>
+          </tr>
+          <tr>
+            <td>Yanlış</td>
+            <td id="result-wrong">0</td>
+          </tr>
+          <tr>
+            <td>Başarı</td>
+            <td id="result-rate">0%</td>
+          </tr>
+          <tr>
+            <td>Seviye</td>
+            <td id="result-level">Yeni Başlayan</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="inline-actions" style="margin-top: 18px;">
+        <button class="btn primary" id="replay" type="button">Tekrar oyna</button>
+        <button class="btn" data-home type="button">Ana menü</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="confetti-layer" id="confetti" aria-hidden="true"></div>
+
+  <script>
+    const AUTO = [
+      { c: 'AutoCAD', q: 'AutoCAD’de çizgi çizmek için kullanılan temel komut hangisidir?', a: ['LINE', 'TRIM', 'OFFSET', 'FILLET'], x: 'LINE' },
+      { c: 'AutoCAD', q: 'Bir nesneyi başka bir konuma taşımak için hangi komut kullanılır?', a: ['MOVE', 'COPY', 'ROTATE', 'ARRAY'], x: 'MOVE' },
+      { c: 'AutoCAD', q: 'Nesneyi kopyalamak için kullanılan komut nedir?', a: ['COPY', 'MIRROR', 'SCALE', 'ERASE'], x: 'COPY' },
+      { c: 'AutoCAD', q: 'Çizimde gereksiz çizgi parçalarını temizlemek için hangi komut kullanılır?', a: ['TRIM', 'EXTEND', 'JOIN', 'BREAK'], x: 'TRIM' },
+      { c: 'AutoCAD', q: 'Daire çizmek için kullanılan komut hangisidir?', a: ['CIRCLE', 'ARC', 'ELLIPSE', 'POLYGON'], x: 'CIRCLE' },
+      { c: 'AutoCAD', q: 'Bir çizginin belirli bir mesafede paralel kopyasını çıkaran komut nedir?', a: ['OFFSET', 'MIRROR', 'STRETCH', 'MOVE'], x: 'OFFSET' },
+      { c: 'AutoCAD', q: 'Nesneyi simetrik olarak yansıtmak için hangi komut kullanılır?', a: ['MIRROR', 'COPY', 'ALIGN', 'ARRAY'], x: 'MIRROR' },
+      { c: 'AutoCAD', q: 'İki nesneyi birbirine birleştirmek için kullanılan komut hangisidir?', a: ['JOIN', 'TRIM', 'CHAMFER', 'BREAK'], x: 'JOIN' },
+      { c: 'AutoCAD', q: 'Bir açının köşesini keskinleştiren komut nedir?', a: ['CHAMFER', 'FILLET', 'OFFSET', 'SCALE'], x: 'CHAMFER' },
+      { c: 'AutoCAD', q: 'Yuvarlak köşe oluşturmak için hangi komut kullanılır?', a: ['FILLET', 'CHAMFER', 'TRIM', 'OFFSET'], x: 'FILLET' },
+      { c: 'AutoCAD', q: 'Nesneyi döndürmeye yarayan komut hangisidir?', a: ['ROTATE', 'MOVE', 'SCALE', 'MIRROR'], x: 'ROTATE' },
+      { c: 'AutoCAD', q: 'Bir nesneyi büyütmek veya küçültmek için kullanılan komut nedir?', a: ['SCALE', 'COPY', 'ROTATE', 'ARRAY'], x: 'SCALE' },
+      { c: 'AutoCAD', q: 'Kare veya çokgen çizmek için kullanılan temel yardımcı komut hangisidir?', a: ['POLYGON', 'RECTANGLE', 'LINE', 'CIRCLE'], x: 'POLYGON' },
+      { c: 'AutoCAD', q: 'Dikdörtgen çizmek için en yaygın komut hangisidir?', a: ['RECTANGLE', 'POLYGON', 'ELLIPSE', 'ARC'], x: 'RECTANGLE' },
+      { c: 'AutoCAD', q: 'Bir çizginin sonunu uzatmak için kullanılan komut hangisidir?', a: ['EXTEND', 'TRIM', 'LENGTHEN', 'STRETCH'], x: 'EXTEND' },
+      { c: 'AutoCAD', q: 'Yatay ve dikey koordinatları kullanarak noktaya gitmek için hangi komut kullanılır?', a: ['OSNAP', 'LINE', 'MOVE', 'PAN'], x: 'OSNAP' },
+      { c: 'AutoCAD', q: 'Katman kullanımı en çok hangi amaç için faydalıdır?', a: ['Çizim düzenini ve görünürlüğü yönetmek', 'Nesneyi silmek', 'Küre çizmek', 'Açı ölçmek'], x: 'Çizim düzenini ve görünürlüğü yönetmek' },
+      { c: 'AutoCAD', q: 'Bir çizimin ölçü bilgisini gösteren araç hangisidir?', a: ['DIMENSION', 'HATCH', 'LAYER', 'ERASE'], x: 'DIMENSION' },
+      { c: 'AutoCAD', q: 'Bir alanı dolgu ile kapatmak için kullanılan komut hangisidir?', a: ['HATCH', 'FILLET', 'ARRAY', 'ROTATE'], x: 'HATCH' },
+      { c: 'AutoCAD', q: 'Sınırları belirlenmiş bir alan içindeki şekli doldurur mu?', a: ['HATCH', 'COPY', 'MOVE', 'LAYER'], x: 'HATCH' },
+      { c: 'AutoCAD', q: 'Çizimin görünümünü yakınlaştırmak için hangi araç kullanılır?', a: ['ZOOM', 'PAN', 'ORBIT', 'VIEW'], x: 'ZOOM' },
+      { c: 'AutoCAD', q: 'Ekranı hareket ettirip farklı alanları görmeye yarayan araç nedir?', a: ['PAN', 'ZOOM', 'MOVE', 'ROTATE'], x: 'PAN' },
+      { c: 'AutoCAD', q: 'Aynı nesnenin tekrarlı kopyalarını oluştururken kullanılır?', a: ['ARRAY', 'MIRROR', 'ALIGN', 'TRIM'], x: 'ARRAY' },
+      { c: 'AutoCAD', q: 'Ölçüleri belirli bir aralıkta tekrar edip düzenlemek için hangi komut kullanılır?', a: ['ARRAY', 'COPY', 'MOVE', 'BREAK'], x: 'ARRAY' },
+      { c: 'AutoCAD', q: 'Bir nesnenin x ve y boyutlarını aynı anda değiştiren komut hangisidir?', a: ['SCALE', 'STRETCH', 'MOVE', 'OFFSET'], x: 'SCALE' },
+      { c: 'AutoCAD', q: 'Kısa yol olarak en çok kullanılan çokgen komutu hangi harftir?', a: ['P', 'C', 'L', 'M'], x: 'P' },
+      { c: 'AutoCAD', q: 'Çizgi komutunun kısa yolu nedir?', a: ['L', 'C', 'M', 'H'], x: 'L' },
+      { c: 'AutoCAD', q: 'Nesne silme komutunun kısa yolu nedir?', a: ['E', 'X', 'D', 'R'], x: 'E' },
+      { c: 'AutoCAD', q: 'Kopyalama komutunun kısa yolu hangisidir?', a: ['CO', 'CP', 'P', 'O'], x: 'CO' },
+      { c: 'AutoCAD', q: 'Kullanıcı çizim üzerinde bir referans noktasına hızlı erişmek için hangi yardımcı sistemi kullanır?', a: ['OSNAP', 'HATCH', 'LAYER', 'VIEW'], x: 'OSNAP' },
+      { c: 'AutoCAD', q: 'Bir nesne üzerinden başka bir nesnenin oranlı olarak büyütülmesi için hangi komut kullanılır?', a: ['SCALE', 'COPY', 'OFFSET', 'ARRAY'], x: 'SCALE' },
+      { c: 'AutoCAD', q: 'Tek bir nesnenin kendisine benzer kopyasını oluşturma işlevi hangisidir?', a: ['COPY', 'JOIN', 'MIRROR', 'ALIGN'], x: 'COPY' },
+      { c: 'AutoCAD', q: 'Köşe açılarında yuvarlatma yaparken hangi komut tercih edilir?', a: ['FILLET', 'CHAMFER', 'TRIM', 'EXTEND'], x: 'FILLET' },
+      { c: 'AutoCAD', q: 'Dairenin merkezini ve yarıçapını tanımlayan komut hangisidir?', a: ['CIRCLE', 'ARC', 'ELLIPSE', 'RECTANGLE'], x: 'CIRCLE' },
+      { c: 'AutoCAD', q: 'Bir çizgiye eşit mesafede paralel çizgi oluşturma işlevi hangisidir?', a: ['OFFSET', 'MOVE', 'COPY', 'SCALE'], x: 'OFFSET' },
+      { c: 'AutoCAD', q: 'Çizimde katmanların rengini değiştirmek ne işe yarar?', a: ['Görünümü ayırmak ve düzenlemek', 'Nesneyi yeniden çizmek', 'Seviye atlamak', 'Açı hesaplamak'], x: 'Görünümü ayırmak ve düzenlemek' },
+      { c: 'AutoCAD', q: 'Nesneleri birbirine hizalamak için hangi komut kullanılır?', a: ['ALIGN', 'MOVE', 'SCALE', 'ARRAY'], x: 'ALIGN' },
+      { c: 'AutoCAD', q: 'Çizgi sonundan başlatıp başka çizgiye uzatarak birleşim yapan araç nedir?', a: ['EXTEND', 'TRIM', 'JOIN', 'CHAMFER'], x: 'EXTEND' },
+      { c: 'AutoCAD', q: 'Nesnenin boyutunu belirli oranda küçültüp büyütürken hangi komut kullanılır?', a: ['SCALE', 'OFFSET', 'COPY', 'MOVE'], x: 'SCALE' },
+      { c: 'AutoCAD', q: 'Katman adı ne iş görür?', a: ['Öğe gruplarını ve düzeni yönetir', 'Mesafeyi ölçer', 'Çizimi kaydeder', 'Açı hesaplar'], x: 'Öğe gruplarını ve düzeni yönetir' },
+      { c: 'AutoCAD', q: 'Nesneye açıyla döndürme uygulayan komut hangisidir?', a: ['ROTATE', 'LINE', 'MIRROR', 'COPY'], x: 'ROTATE' },
+      { c: 'AutoCAD', q: 'Hızlı tüm görünüm açmak için kullanılan komut nedir?', a: ['ZOOM EXTENTS', 'PAN', 'VIEW', 'ORBIT'], x: 'ZOOM EXTENTS' },
+      { c: 'AutoCAD', q: 'Nesneyi silmek için hangi komut kullanılır?', a: ['ERASE', 'MOVE', 'COPY', 'SCALE'], x: 'ERASE' },
+      { c: 'AutoCAD', q: 'Çizimin istenen ölçüde kopyalarını düzenli şekilde yerleştiren komut hangisidir?', a: ['ARRAY', 'COPY', 'OFFSET', 'ROTATE'], x: 'ARRAY' },
+      { c: 'AutoCAD', q: 'Dikeyde ve yatayda ölçüleri okuyan ölçüm aracı hangisidir?', a: ['DIMENSION', 'HATCH', 'LAYER', 'TEXT'], x: 'DIMENSION' },
+      { c: 'AutoCAD', q: 'Metrik ölçüleri veya metin açıklamalarını eklemek için kullanılır?', a: ['TEXT', 'LINE', 'ARC', 'CIRCLE'], x: 'TEXT' },
+      { c: 'AutoCAD', q: 'Köşeleri yuvarlatma ve eğim vermek için kullanılan komut hangisidir?', a: ['FILLET', 'CHAMFER', 'ARRAY', 'SCALE'], x: 'FILLET' },
+      { c: 'AutoCAD', q: 'Nesnelerin kuralı şekilde tekrar etmesini sağlayan komut hangisidir?', a: ['ARRAY', 'TRIM', 'COPY', 'HATCH'], x: 'ARRAY' },
+      { c: 'AutoCAD', q: 'Çizimlerde koordinat sistemiyle çalışan dual mod hangisidir?', a: ['ABSOLUTE / RELATIVE', 'LOCK / UNLOCK', 'PAN / ZOOM', 'MOVE / COPY'], x: 'ABSOLUTE / RELATIVE' },
+      { c: 'AutoCAD', q: 'Çizimin 2B görünümünü kapatıp farklı perspektifte bakmak için kullanılan görünüm hangisidir?', a: ['3DORBIT', 'PAN', 'ZOOM', 'VIEW'], x: '3DORBIT' },
+      { c: 'AutoCAD', q: 'Model alanında bir nesneyi net biçimde görmek için hangi görsel ayar kullanılır?', a: ['VIEWPORT', 'LAYER', 'OFFSET', 'TEXT'], x: 'VIEWPORT' },
+      { c: 'AutoCAD', q: 'Nesneyi bir başka nesnenin üzerine yerleştirirken hangi komut kullanılır?', a: ['ALIGN', 'COPY', 'MOVE', 'ARRAY'], x: 'ALIGN' },
+      { c: 'AutoCAD', q: 'Bir nesnenin eksen etrafında dönüşümünü sağlayan komut hangisidir?', a: ['ROTATE', 'SHIFT', 'EXTEND', 'TRIM'], x: 'ROTATE' },
+      { c: 'AutoCAD', q: 'Nesneleri birbirine bağlayarak tek parça gibi çalıştıran komut nedir?', a: ['JOIN', 'SCALE', 'OFFSET', 'MIRROR'], x: 'JOIN' },
+      { c: 'AutoCAD', q: 'Ekrana bakarak istenilen alanın sınırlarını büyütme işlemi hangisidir?', a: ['ZOOM', 'PAN', 'COPY', 'MOVE'], x: 'ZOOM' },
+      { c: 'AutoCAD', q: 'Bir çizimin belirli anahtarlara göre otomatik tekrar etmesini sağlayan yapı hangisidir?', a: ['BLOCK', 'TEXT', 'LAYER', 'DIMENSION'], x: 'BLOCK' },
+      { c: 'AutoCAD', q: 'Kullanıcı tanımlı tekrar eden öğeleri yönetmek için kullanılan içerik hangisidir?', a: ['BLOCK', 'HATCH', 'VIEW', 'POLYLINE'], x: 'BLOCK' },
+      { c: 'AutoCAD', q: 'Bir çizginin keskin köşeleri yerine yumuşak geçiş yapması için hangi komut kullanılır?', a: ['FILLET', 'CHAMFER', 'ARRAY', 'OFFSET'], x: 'FILLET' },
+      { c: 'AutoCAD', q: 'Bir çizimin kısa bir bölümünü açmak için en uygun komut nedir?', a: ['BREAK', 'TRIM', 'JOIN', 'EXTEND'], x: 'BREAK' },
+      { c: 'AutoCAD', q: 'Kesilerek açığa çıkmış parçayı bir araya getirirken hangi komut kullanılabilir?', a: ['JOIN', 'BREAK', 'OFFSET', 'SCALE'], x: 'JOIN' },
+      { c: 'AutoCAD', q: 'Nesnelerin birbirine yaklaşarak aynı çizgiye gelmesini sağlayan komut hangisidir?', a: ['ALIGN', 'MOVE', 'COPY', 'ARRAY'], x: 'ALIGN' },
+      { c: 'AutoCAD', q: 'Aynı çizimi pembe, mavi ve sarı katmanlarla ayırmak için en uygun kavram nedir?', a: ['LAYER', 'BLOCK', 'TEXT', 'VIEWPORT'], x: 'LAYER' },
+      { c: 'AutoCAD', q: 'Bir alanı dolgu ile kapatırken kaçınılmaz olarak kullanılan araç hangisidir?', a: ['HATCH', 'TEXT', 'MOVE', 'CYLINDER'], x: 'HATCH' },
+      { c: 'AutoCAD', q: 'İç içe kopyalama düzeni için en doğru araç hangisidir?', a: ['ARRAY', 'BOLT', 'PAN', 'ORBIT'], x: 'ARRAY' },
+      { c: 'AutoCAD', q: 'Bir çizimin istenen mesafesi kadar yandaki paralelini çıkaran işlem hangisidir?', a: ['OFFSET', 'TRIM', 'STRETCH', 'ERASE'], x: 'OFFSET' },
+      { c: 'AutoCAD', q: 'Nesne köşelerine hızlı atlama için hangi sistem kullanılır?', a: ['OSNAP', 'LAYER', 'TEXT', 'ZOOM'], x: 'OSNAP' },
+      { c: 'AutoCAD', q: 'Çizimlerde metin yazmanın ana aracı hangisidir?', a: ['TEXT', 'DIMENSION', 'OFFSET', 'COPY'], x: 'TEXT' },
+      { c: 'AutoCAD', q: 'Yeni bir katman oluşturup kullanıma açmak için hangi kavramdır?', a: ['LAYER', 'BLOCK', 'VIEW', 'ERASE'], x: 'LAYER' },
+      { c: 'AutoCAD', q: 'Katman görünürlüğünü kapatırken ne olur?', a: ['Çizim gizlenir ama veri kaybolmaz', 'Çizim silinir', 'Açı sıfırlanır', 'Nesne bozulur'], x: 'Çizim gizlenir ama veri kaybolmaz' },
+      { c: 'AutoCAD', q: 'Çizim düzenlemede en sık başvurulan seçim tipi hangisidir?', a: ['WINDOW SELECTION', 'TEXT', 'DIMENSION', 'VIEW'], x: 'WINDOW SELECTION' },
+      { c: 'AutoCAD', q: 'Bir nesneyi seçildikten sonra işaretleme kutusuyla taşımak için hangi yöntem kullanılır?', a: ['MOVE', 'TRIM', 'HATCH', 'ROTATE'], x: 'MOVE' },
+      { c: 'AutoCAD', q: 'Nesneleri aynı doğrultuda ve genişlikte çoğaltan komut hangisidir?', a: ['ARRAY', 'OFFSET', 'COPY', 'LAYER'], x: 'ARRAY' },
+      { c: 'AutoCAD', q: 'Çizim alanı içindeki tüm görünümü sığdırmak için hangi fonksiyon kullanılır?', a: ['ZOOM EXTENTS', 'ZOOM ALL', 'PAN', 'VIEW'], x: 'ZOOM EXTENTS' },
+      { c: 'AutoCAD', q: 'Bir dairenin yarıçapını değiştirmek için hangi komut kullanılır?', a: ['SCALE', 'CIRCLE', 'TRIM', 'COPY'], x: 'SCALE' },
+      { c: 'AutoCAD', q: 'Bir cismi farklı açılardan çevirmek için kullanılan ekran hareketi hangisidir?', a: ['ORBIT', 'ZOOM', 'PAN', 'VIEW'], x: 'ORBIT' },
+      { c: 'AutoCAD', q: 'Modelin birbirine çapraz yerleşiminden kaynaklı benzer öğeleri düzenlemek için hangi komut kullanılır?', a: ['ALIGN', 'MOVE', 'COPY', 'ROTATE'], x: 'ALIGN' }
+    ];
+
+    const SKETCHUP = [
+      { c: 'SketchUp', q: 'SketchUp’ta yüzeyi 3 boyutlu hale getirmek için hangi araç kullanılır?', a: ['Push/Pull', 'Orbit', 'Line', 'Paint Bucket'], x: 'Push/Pull' },
+      { c: 'SketchUp', q: 'Modeli farklı açılardan incelemek için kullanılan araç hangisidir?', a: ['Orbit', 'Move', 'Scale', 'Arc'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'SketchUp’ta dikdörtgen araç için varsayılan kısayol hangisidir?', a: ['R', 'L', 'M', 'P'], x: 'R' },
+      { c: 'SketchUp', q: 'Bir yüzeyi taşıma ve uzatma işlemi için kullanılan araç nedir?', a: ['Push/Pull', 'Eraser', 'Rectangle', 'Circle'], x: 'Push/Pull' },
+      { c: 'SketchUp', q: 'Nesneleri hareket ettirmek için kullanılan araç hangisidir?', a: ['Move', 'Arc', 'Paint', 'Select'], x: 'Move' },
+      { c: 'SketchUp', q: 'Bir objeyi büyütüp küçültmek için hangi araç kullanılır?', a: ['Scale', 'Orbit', 'Line', 'Push/Pull'], x: 'Scale' },
+      { c: 'SketchUp', q: 'Keskin köşeyi yuvarlatmak için hangi komut daha yaygındır?', a: ['Soften/Smooth', 'Push/Pull', 'Move', 'Paint'], x: 'Soften/Smooth' },
+      { c: 'SketchUp', q: 'SketchUp’ta bir çizgiyi oluşturmak için hangi araç kullanılır?', a: ['Line', 'Rectangle', 'Circle', 'Arc'], x: 'Line' },
+      { c: 'SketchUp', q: 'Çember çizen araç hangisidir?', a: ['Circle', 'Arc', 'Rectangle', 'Polygon'], x: 'Circle' },
+      { c: 'SketchUp', q: 'Nesne üzerinde doğru bir açı çizen araç hangisidir?', a: ['Arc', 'Line', 'Ellipse', 'Move'], x: 'Arc' },
+      { c: 'SketchUp', q: 'SketchUp’ta bir yüzeyi kaldırarak hacim vermek nasıl yapılır?', a: ['Push/Pull', 'Scale', 'Rotate', 'Line'], x: 'Push/Pull' },
+      { c: 'SketchUp', q: 'Modelin etrafında dolanıp farklı açılardan bakmak için hangi araç gerekir?', a: ['Orbit', 'Pan', 'Zoom', 'Move'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'Şekli taşıdığınızda aynı zamanda eğriye ve yüzeylere ne olur?', a: ['Nesne konum değiştirir', 'Yüzey bozulur', 'Model kapanır', 'Her şey silinir'], x: 'Nesne konum değiştirir' },
+      { c: 'SketchUp', q: 'Uzaklaştırma ve yakınlaştırma işini sağlayan araç hangisidir?', a: ['Zoom', 'Pan', 'Orbit', 'Line'], x: 'Zoom' },
+      { c: 'SketchUp', q: 'Sayfa içinde görseli kaydırma aracı hangisidir?', a: ['Pan', 'Orbit', 'Move', 'Scale'], x: 'Pan' },
+      { c: 'SketchUp', q: 'Nesneyi döndürmek için hangi araç kullanılır?', a: ['Rotate', 'Move', 'Scale', 'Orbit'], x: 'Rotate' },
+      { c: 'SketchUp', q: 'Bir yüzeyi silmek için kullanılan araç hangisidir?', a: ['Eraser', 'Push/Pull', 'Line', 'Arc'], x: 'Eraser' },
+      { c: 'SketchUp', q: 'Nesneleri istenilen bir ölçüye göre tekrar eden bir düzen ile yerleştirmek için hangi araç kullanılır?', a: ['Array', 'Scale', 'Orbit', 'Paint'], x: 'Array' },
+      { c: 'SketchUp', q: 'Şekli renklemek için kullanılabilecek araç hangisidir?', a: ['Paint Bucket', 'Eraser', 'Orbit', 'Move'], x: 'Paint Bucket' },
+      { c: 'SketchUp', q: 'SketchUp’ta bir yüzeyin kenarlarını yumuşatmak için hangi araç kullanılır?', a: ['Soften/Smooth', 'Rotate', 'Move', 'Scale'], x: 'Soften/Smooth' },
+      { c: 'SketchUp', q: 'İki yüzeyi birleştirmek için kullanılan araç hangisidir?', a: ['Intersect Faces', 'Push/Pull', 'Scale', 'Line'], x: 'Intersect Faces' },
+      { c: 'SketchUp', q: 'Nesneleri cismi ölçeklendirmek için uygun araç nedir?', a: ['Scale', 'Eraser', 'Orbit', 'Move'], x: 'Scale' },
+      { c: 'SketchUp', q: 'Model üzerinde 2 boyutlu çizim yaparken en sık kullanılan araç nedir?', a: ['Line', 'Push/Pull', 'Orbit', 'Rotate'], x: 'Line' },
+      { c: 'SketchUp', q: 'Nesneleri farklı oranda ölçeklendirirken hangi araç kullanılmaz?', a: ['Paint Bucket', 'Scale', 'Move', 'Rotate'], x: 'Paint Bucket' },
+      { c: 'SketchUp', q: 'Bir yüzeyi seçtikten sonra üzerine daha fazla hacim eklemek için hangi araç kullanılır?', a: ['Push/Pull', 'Eraser', 'Move', 'Scale'], x: 'Push/Pull' },
+      { c: 'SketchUp', q: 'Yüzeyin kenarının biçimini değiştiren araç hangisidir?', a: ['Follow Me', 'Rotate', 'Line', 'Pan'], x: 'Follow Me' },
+      { c: 'SketchUp', q: 'Dairenin sınırlarını kırarak eğri oluşturma aracı hangisidir?', a: ['Arc', 'Line', 'Rectangle', 'Scale'], x: 'Arc' },
+      { c: 'SketchUp', q: 'Yüzeyleri kesiştirmek için kullanılan araç nedir?', a: ['Intersect Faces', 'Push/Pull', 'Move', 'Scale'], x: 'Intersect Faces' },
+      { c: 'SketchUp', q: 'Kullanıcı ekrana odaklanarak modelin genel görünümünü kontrol eder. Bu araç hangisidir?', a: ['Zoom', 'Orbit', 'Move', 'Rotate'], x: 'Zoom' },
+      { c: 'SketchUp', q: 'Bir grup nesneyi tek parça gibi taşıyan arayüz hangisidir?', a: ['Group', 'Layer', 'Paint', 'Line'], x: 'Group' },
+      { c: 'SketchUp', q: 'Bir modeli anında üst üste binmiş gibi görünüm vermeye yarayan araç hangisidir?', a: ['Intersect Faces', 'Paint Bucket', 'Orbit', 'Move'], x: 'Intersect Faces' },
+      { c: 'SketchUp', q: 'Çizimlerin daha pürüzsüz görünmesini sağlayan araç nedir?', a: ['Soften/Smooth', 'Move', 'Line', 'Scale'], x: 'Soften/Smooth' },
+      { c: 'SketchUp', q: 'Modeli yakınlaştırıp detay görmek için kullanılan araç hangisidir?', a: ['Zoom', 'Pan', 'Orbit', 'Rotate'], x: 'Zoom' },
+      { c: 'SketchUp', q: 'Bir nesneyi teğet bir biçimde döndüren araç hangisidir?', a: ['Rotate', 'Move', 'Scale', 'Follow Me'], x: 'Rotate' },
+      { c: 'SketchUp', q: 'Kullanıcı bir duvarı aynalayarak komşu kopyasını oluşturur. Hangi araç kullanılır?', a: ['Move', 'Copy', 'Orbit', 'Scale'], x: 'Copy' },
+      { c: 'SketchUp', q: 'SketchUp’ta 2 boyutlu bir çizim için ilk adım nedir?', a: ['Plane seçmek', 'Yüzey oluşturmak', 'Renk vermek', 'Açı değiştirmek'], x: 'Plane seçmek' },
+      { c: 'SketchUp', q: 'Modeli netleştirmek için yüzeylerin birleştirilmesi hangi araçla yapılır?', a: ['Intersect Faces', 'Line', 'Paint Bucket', 'Rotate'], x: 'Intersect Faces' },
+      { c: 'SketchUp', q: 'Bir çizginin belirli bir yönde uzatılmasına ne denir?', a: ['Follow Me', 'Rotate', 'Scale', 'Line'], x: 'Follow Me' },
+      { c: 'SketchUp', q: 'Hangi araç, nesnelerin boyutunu oransal olarak değiştirmeye yardımcı olur?', a: ['Scale', 'Move', 'Rotate', 'Eraser'], x: 'Scale' },
+      { c: 'SketchUp', q: 'Ölçüleri kontrol ederken en yaygın olarak hangi görünüm kullanılır?', a: ['Orbit', 'Zoom', 'Pan', 'Line'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'Uzun bir yol boyunca şekli sarmak için hangi araç kullanılır?', a: ['Follow Me', 'Move', 'Paint Bucket', 'Circle'], x: 'Follow Me' },
+      { c: 'SketchUp', q: 'SketchUp’ta çizim ekranının kaydırılmasını sağlayan araç hangisidir?', a: ['Pan', 'Orbit', 'Scale', 'Push/Pull'], x: 'Pan' },
+      { c: 'SketchUp', q: 'Hangi araç “yer seç” işlemi için modelin farklı açılardan görünümünü sağlar?', a: ['Orbit', 'Line', 'Eraser', 'Rotate'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'Çizim alanında bir nesneyi seçmek için kullanılan ilk araç hangisidir?', a: ['Select', 'Move', 'Rotate', 'Pan'], x: 'Select' },
+      { c: 'SketchUp', q: 'Nesne üzerinde dökme gibi işlev yapan çoklu şekil oluşturma aracı nedir?', a: ['Follow Me', 'Push/Pull', 'Orbit', 'Scale'], x: 'Follow Me' },
+      { c: 'SketchUp', q: 'Bir yüzeyin üstüne ait rengi uygulamak için hangi araç kullanılır?', a: ['Paint Bucket', 'Line', 'Orbit', 'Move'], x: 'Paint Bucket' },
+      { c: 'SketchUp', q: 'SketchUp’ta bir çizimi köşelerde daha pürüzsüz hale getirmek için hangi araç kullanılır?', a: ['Soften/Smooth', 'Arc', 'Move', 'Eraser'], x: 'Soften/Smooth' },
+      { c: 'SketchUp', q: 'Bir nesneyi taşıma sırasında orjin noktasından bağımsız olarak ekranı sürükleyen araç nedir?', a: ['Move', 'Pan', 'Scale', 'Orbit'], x: 'Move' },
+      { c: 'SketchUp', q: 'Hızlı üç boyutlu bakış açısı için doğru araç hangisidir?', a: ['Orbit', 'Pan', 'Line', 'Paint Bucket'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'Modelde istenmeyen kenarları kaldırırken hangi araç kullanılır?', a: ['Eraser', 'Line', 'Rotate', 'Scale'], x: 'Eraser' },
+      { c: 'SketchUp', q: 'Bir nesnenin etrafında 360 derece dolanmak için hangi araç kullanılır?', a: ['Orbit', 'Pan', 'Zoom', 'Move'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'Nesnenin 3B görünümünü tamamen bozmadan yönünü değiştirmek için hangi komut kullanılır?', a: ['Rotate', 'Move', 'Scale', 'Eraser'], x: 'Rotate' },
+      { c: 'SketchUp', q: 'Yüzeylerin geometrik kesişimini elde etmek için hangi araç tercih edilir?', a: ['Intersect Faces', 'Rotate', 'Move', 'Select'], x: 'Intersect Faces' },
+      { c: 'SketchUp', q: 'Derinlik vermek için ilk adım hangisidir?', a: ['Yüzey çizmek', 'Renk uygulamak', 'Kopyalamak', 'Eraser kullanmak'], x: 'Yüzey çizmek' },
+      { c: 'SketchUp', q: 'Yüzeye istenmiş bir profil takip ettirerek hacim oluşturma aracı hangisidir?', a: ['Follow Me', 'Move', 'Scale', 'Orbit'], x: 'Follow Me' },
+      { c: 'SketchUp', q: 'Bir nesnenin yerini değiştirirken hangi araç kullanılır?', a: ['Move', 'Zoom', 'Pan', 'Scale'], x: 'Move' },
+      { c: 'SketchUp', q: 'Hangi araç, görüntü alanını çizim sayfası içinde farklı açılardan göstermeyi sağlar?', a: ['Orbit', 'Push/Pull', 'Paint Bucket', 'Scale'], x: 'Orbit' },
+      { c: 'SketchUp', q: 'Nesneyi aynı anda hem küçültüp hem de yeniden şekillendirmek için hangi araç kullanılır?', a: ['Scale', 'Move', 'Rotate', 'Orbit'], x: 'Scale' },
+      { c: 'SketchUp', q: 'Bir yüzey üzerinde detaylı profili taşıyan araç hangisidir?', a: ['Follow Me', 'Move', 'Line', 'Selector'], x: 'Follow Me' }
+    ];
+
+    const Q = [...AUTO, ...AUTO, ...SKETCHUP, ...SKETCHUP];
+    let category = 'all';
+    let list = [];
+    let index = 0;
+    let points = 0;
+    let locked = false;
+
+    const screens = [...document.querySelectorAll('.screen')];
+    const scoreNode = document.getElementById('score');
+    const bar = document.getElementById('bar');
+    const qCount = document.getElementById('q-count');
+    const questionNode = document.getElementById('question');
+    const answersNode = document.getElementById('answers');
+    const feedbackNode = document.getElementById('feedback');
+    const nextBtn = document.getElementById('next');
+    const replayBtn = document.getElementById('replay');
+    const confettiNode = document.getElementById('confetti');
+
+    function shuffle(arr) {
+      const out = [...arr];
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    }
+
+    function showScreen(id) {
+      screens.forEach(screen => screen.classList.toggle('active', screen.id === id));
+    }
+
+    function setCategory(cat) {
+      category = cat;
+      document.querySelectorAll('[data-cat]').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.cat === cat);
+      });
+    }
+
+    function startQuiz() {
+      const pool = category === 'all' ? Q : Q.filter(item => item.c === category);
+      const picked = shuffle(pool).slice(0, Math.min(200, pool.length));
+      list = picked;
+      index = 0;
+      points = 0;
+      locked = false;
+      nextBtn.classList.add('hidden');
+      feedbackNode.className = 'feedback info';
+      renderQuestion();
+      showScreen('quiz');
+    }
+
+    function renderQuestion() {
+      locked = false;
+      const item = list[index];
+      const progress = ((index + 1) / list.length) * 100;
+      qCount.textContent = `Soru ${index + 1} / ${list.length} • ${item.c}`;
+      scoreNode.textContent = `Puan: ${points}`;
+      bar.style.width = `${progress}%`;
+      questionNode.textContent = item.q;
+      feedbackNode.textContent = '';
+      feedbackNode.className = 'feedback info';
+      answersNode.innerHTML = '';
+
+      item.a.forEach(answer => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'answer';
+        btn.textContent = answer;
+        btn.addEventListener('click', () => chooseAnswer(btn, answer, item.x));
+        answersNode.appendChild(btn);
+      });
+    }
+
+    function chooseAnswer(button, answer, correct) {
+      if (locked) return;
+      locked = true;
+      const allButtons = [...document.querySelectorAll('.answer')];
+
+      allButtons.forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === correct) {
+          btn.classList.add('correct');
+        }
+        if (btn === button && btn.textContent !== correct) {
+          btn.classList.add('wrong');
+        }
+      });
+
+      if (answer === correct) {
+        points += 1;
+        scoreNode.textContent = `Puan: ${points}`;
+        feedbackNode.textContent = '✅ Doğru!';
+        feedbackNode.className = 'feedback good';
+        burstConfetti();
+      } else {
+        feedbackNode.textContent = `❌ Yanlış! Doğru cevap: ${correct}`;
+        feedbackNode.className = 'feedback bad';
+      }
+
+      nextBtn.classList.remove('hidden');
+    }
+
+    function burstConfetti() {
+      const colors = ['#facc15', '#60a5fa', '#5eead4', '#22c55e', '#ef4444', '#f472b6', '#f8fafc'];
+      const pieces = 36;
+      for (let i = 0; i < pieces; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti';
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const left = Math.random() * window.innerWidth;
+        const x = (Math.random() - 0.5) * 300;
+        const rot = (Math.random() - 0.5) * 600;
+        piece.style.left = `${left}px`;
+        piece.style.top = '0px';
+        piece.style.background = color;
+        piece.style.setProperty('--x', `${x}px`);
+        piece.style.setProperty('--rot', `${rot}deg`);
+        confettiNode.appendChild(piece);
+        setTimeout(() => piece.remove(), 1700);
+      }
+    }
+
+    function finishRound() {
+      const correct = points;
+      const wrong = list.length - points;
+      const rate = Math.round((correct / list.length) * 100);
+      let level = 'Yeni Başlayan';
+
+      if (rate >= 90) level = 'Usta';
+      else if (rate >= 75) level = 'İleri Seviye';
+      else if (rate >= 60) level = 'Güçlü';
+      else if (rate >= 45) level = 'Orta Seviye';
+      else if (rate >= 25) level = 'Başlangıç';
+
+      document.getElementById('result-correct').textContent = String(correct);
+      document.getElementById('result-wrong').textContent = String(wrong);
+      document.getElementById('result-rate').textContent = `${rate}%`;
+      document.getElementById('result-level').textContent = level;
+
+      showScreen('result');
+    }
+
+    nextBtn.addEventListener('click', () => {
+      if (index + 1 < list.length) {
+        index += 1;
+        nextBtn.classList.add('hidden');
+        renderQuestion();
+      } else {
+        finishRound();
+      }
+    });
+
+    replayBtn.addEventListener('click', startQuiz);
+
+    document.getElementById('start').addEventListener('click', startQuiz);
+    document.getElementById('restart').addEventListener('click', startQuiz);
+
+    document.querySelectorAll('[data-home]').forEach(btn => {
+      btn.addEventListener('click', () => showScreen('home'));
+    });
+
+    document.querySelectorAll('[data-cat]').forEach(btn => {
+      btn.addEventListener('click', () => setCategory(btn.dataset.cat));
+    });
+
+    showScreen('home');
+  </script>
 </body>
 </html>
