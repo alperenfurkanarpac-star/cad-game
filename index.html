@@ -433,7 +433,7 @@
 
     <section id="quiz" class="screen">
       <div class="stats">
-        <span id="qCount">Soru 1 / 20</span>
+        <span id="qCount">Soru 1 / 10</span>
         <span id="score">Puan: 0</span>
       </div>
       <div class="track"><div class="bar" id="bar"></div></div>
@@ -647,11 +647,11 @@
 
     function startQuiz() {
       let remaining = getRemaining();
-      if (remaining.length < 20) {
+      if (remaining.length < 10) {
         try { localStorage.removeItem(getSeenKey()); } catch {}
         remaining = pool.filter(item => category === 'all' ? true : item.category === category);
       }
-      list = shuffle(remaining).slice(0, 20);
+      list = shuffle(remaining).slice(0, 10);
 
       const seen = new Set(JSON.parse(localStorage.getItem(getSeenKey()) || '[]'));
       list.forEach(item => seen.add(item.question));
