@@ -1,12 +1,802 @@
 <!doctype html>
-<html lang="tr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#101827"><title>KALECAD | CAD Bilgi Yarışması</title><style>
-:root{color-scheme:dark;--text:#edf5ff;--muted:#bfd2eb;--blue:#72a7ff;--cyan:#5fe4ff;--gold:#ffd36c}*{box-sizing:border-box}body{margin:0;min-height:100vh;display:grid;place-items:center;padding:16px;background:radial-gradient(circle at top,#214a78,#0b1220 50%,#070d17);font-family:Arial,sans-serif;color:var(--text)}.app{width:min(960px,100%);min-height:90vh;background:#111b28f5;border:1px solid #2f4665;border-radius:24px;overflow:hidden;box-shadow:0 24px 80px #0006}.header{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid #ffffff14}.brand{display:flex;align-items:center;gap:12px}.logo-mark{width:48px;height:48px;display:grid;place-items:center;border-radius:13px;background:#247bff25;border:1px solid #5fa8ff77}.logo-mark svg{width:38px;height:38px}.brand h1{margin:0;letter-spacing:.08em}.tag,.muted{color:var(--muted)}.tag{font-size:.8rem}.screen{display:none;padding:clamp(18px,4vw,36px)}.screen.active{display:block}.hero{text-align:center}.eyebrow{color:var(--cyan);font-weight:bold;letter-spacing:.15em}.hero h2{font-size:clamp(2rem,6vw,4rem);line-height:1;margin:18px 0}.hero h2 span{color:var(--gold)}.hero p{max-width:620px;margin:18px auto;color:var(--muted);line-height:1.6}.category-row,.center{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:22px 0}.btn,.primary{border:1px solid #ffffff22;border-radius:12px;padding:12px 16px;color:var(--text);background:#ffffff09;font:inherit;font-weight:bold;cursor:pointer}.btn.selected{background:#3187ff44;border-color:var(--cyan)}.primary{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#06131f;border:0;padding:14px 24px}.stats{display:flex;justify-content:space-between;color:var(--muted);font-weight:bold}.track{height:12px;margin:16px 0 24px;background:#ffffff12;border-radius:99px;overflow:hidden}.bar{height:100%;width:0;background:linear-gradient(90deg,#53d7a3,var(--cyan),var(--blue))}.question{font-size:clamp(1.4rem,3vw,2rem);line-height:1.4}.answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.answer{min-height:64px;text-align:left;padding:14px;border:1px solid #ffffff1c;border-radius:14px;color:var(--text);background:#ffffff08;font-size:1rem;font-weight:bold;cursor:pointer}.answer.correct{background:#53d7a333;border-color:#53d7a3}.answer.wrong{background:#ff7a7a33;border-color:#ff7a7a}.answer:disabled{cursor:default}.feedback{min-height:28px;font-weight:bold}.good{color:#53d7a3}.bad{color:#ff7a7a}.controls{display:flex;justify-content:space-between;gap:12px;margin-top:18px}.hidden{display:none!important}.level{padding:16px;border:1px solid #5fe4ff55;border-radius:14px;background:#5fe4ff12;line-height:1.6}.level strong{color:var(--gold);font-size:1.35rem}.result{padding:16px;line-height:1.7}.scoreboard{width:100%;border-collapse:collapse}.scoreboard th,.scoreboard td{padding:10px;border:1px solid #ffffff22;text-align:left}.scoreboard td:last-child{text-align:right;font-weight:bold}.pool-note{text-align:center;color:var(--muted)}.celebration{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:5}.particle{position:absolute;left:50%;top:50%;animation:burst 1.15s ease-out forwards}@keyframes burst{0%{transform:translate(-50%,-50%) scale(.2);opacity:0}15%{opacity:1}100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) rotate(var(--r));opacity:0}}@media(max-width:650px){.answers{grid-template-columns:1fr}.controls{flex-direction:column}.controls>*{width:100%}.tag{font-size:.7rem}}
-</style></head><body><main class="app"><header class="header"><div class="brand"><div class="logo-mark" aria-label="Mavi kale logosu"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img"><path fill="#3287ff" stroke="#9bd5ff" stroke-width="2" d="M8 55V25l8-6 8 6V13l8-7 8 7v12l8-6 8 6v30z"/><path fill="#bfe8ff" d="M14 30h7v8h-7zm15-12h7v8h-7zm15 12h7v8h-7z"/><path fill="#0c3970" stroke="#9bd5ff" stroke-width="2" d="M26 55V39a6 6 0 0 1 12 0v16z"/><path stroke="#bfe8ff" stroke-width="2" d="M5 56h54"/></svg></div><h1>KALECAD</h1></div><span class="tag">AutoCAD • SketchUp</span></header>
-<section id="home" class="screen active"><div class="hero"><p class="eyebrow">⚡ ÇİZİM BİLGİNİ TEST ET</p><h2>Komutları biliyor<br><span>musun?</span></h2><p>AutoCAD ve SketchUp bilginle 20 soruluk turlara katıl. Her turda soru havuzundan daha önce sorulmamış sorular seçilir.</p></div><div class="category-row"><button class="btn selected" data-cat="all">Karışık</button><button class="btn" data-cat="AutoCAD">AutoCAD</button><button class="btn" data-cat="SketchUp">SketchUp</button></div><p class="pool-note" id="poolNote"></p><div class="center"><button class="primary" id="start">Başla</button></div></section>
-<section id="quiz" class="screen"><div class="stats"><span id="qCount"></span><span id="score">Puan: 0</span></div><div class="track"><div class="bar" id="bar"></div></div><h2 class="question" id="question"></h2><div class="answers" id="answers"></div><p class="feedback" id="feedback"></p><div class="controls"><button class="primary hidden" id="next">Sonraki soru</button><button class="btn" data-home>Ana menü</button></div></section>
-<section id="result" class="screen"><h2>🏁 Tur tamamlandı!</h2><div class="level" id="level"></div><div class="result" id="summary"></div><table class="scoreboard"><thead><tr><th>Gösterge</th><th>Sonuç</th></tr></thead><tbody><tr><td>Doğru cevap</td><td id="correct">0</td></tr><tr><td>Yanlış cevap</td><td id="wrong">0</td></tr><tr><td>Başarı</td><td id="accuracy">0%</td></tr><tr><td>Rekor (doğru)</td><td id="best">0</td></tr></tbody></table><div class="center"><button class="primary" id="replay">Yeni tur oyna</button></div><div class="center"><button class="btn" data-home>Ana menü</button></div></section></main><div class="celebration" id="celebration"></div>
-<script>
-const data={AutoCAD:[['LINE','İki veya daha fazla nokta arasında düz çizgi çizer.'],['PLINE','Birbirine bağlı çizgi ve yay parçalarından tek çoklu çizgi oluşturur.'],['CIRCLE','Merkezi ve yarıçapı belirlenen daire çizer.'],['ARC','Dairenin bir bölümünü, yani yayı çizer.'],['RECTANG','Dikdörtgen biçiminde kapalı çoklu çizgi oluşturur.'],['POLYGON','Eşit kenarlı kapalı çokgen çizer.'],['MOVE','Seçili nesneleri belirlenen konuma taşır.'],['COPY','Seçili nesnelerin kopyasını oluşturur.'],['ROTATE','Nesneleri taban noktası çevresinde döndürür.'],['MIRROR','Nesnelerin belirlenen eksene göre simetriğini oluşturur.'],['SCALE','Nesneleri büyütür veya küçültür.'],['OFFSET','Belirli mesafede paralel/eş merkezli kopya oluşturur.'],['TRIM','Nesneleri belirlenen sınırda kırpar.'],['EXTEND','Nesneleri seçilen sınır nesnesine kadar uzatır.'],['FILLET','İki nesne arasına yuvarlak köşe ekler.'],['CHAMFER','İki nesnenin köşesini eğimli kenarla birleştirir.'],['ARRAY','Nesnelerin düzenli kopyalarını oluşturur.'],['HATCH','Kapalı alanı tarama veya dolgu ile doldurur.'],['ERASE','Seçili nesneleri siler.'],['EXPLODE','Birleşik nesneyi bileşen parçalarına ayırır.'],['JOIN','Uyumlu nesneleri tek nesnede birleştirir.'],['STRETCH','Nesneleri uzatır veya kısaltır.'],['DIM','Çizime ölçü açıklamaları ekler.'],['DIST','İki nokta arasındaki mesafeyi ölçer.'],['AREA','Kapalı alanın alanını ve çevresini hesaplar.'],['LAYER','Çizim katmanlarını yönetir.'],['BLOCK','Nesneleri tekrar kullanılabilir blok haline getirir.'],['ZOOM','Çizim görünümünü yakınlaştırır veya uzaklaştırır.'],['PAN','Çizim görünümünü kaydırır.'],['OSNAP','Nokta, merkez ve kesişim gibi hassas noktalara yakalar.'],['ORTHO','İmleç hareketini yatay ve dikey yönlerle sınırlar.'],['MATCHPROP','Nesne özelliklerini diğer nesnelere aktarır.'],['PROPERTIES','Seçili nesnelerin özelliklerini düzenler.'],['TEXT','Tek satırlı yazı ekler.'],['MTEXT','Çok satırlı biçimlendirilmiş metin ekler.'],['LEADER','Açıklamaya bağlı yönlendirici çizgi oluşturur.'],['DIMSTYLE','Ölçülerin görünüşünü ve biçimini yönetir.'],['PURGE','Kullanılmayan tanımları çizimden temizler.'],['BREAK','Bir nesnenin bölümünü kaldırır veya ayırır.'],['ALIGN','Nesneleri belirlenen noktalara göre hizalar.'],['EXTRUDE','Profili uzatarak 3B nesne oluşturur.'],['REVOLVE','Profili eksen etrafında döndürerek 3B şekil oluşturur.'],['UCS','Kullanıcı koordinat sistemini ayarlar.'],['POLAR','Açılı izleme ile çizim yapmayı kolaylaştırır.'],['XREF','Başka çizimi dış referans olarak bağlar.'],['REGEN','Ekran görüntüsünü yeniden hesaplar.'],['BOUNDARY','Kapalı alan sınırından nesne oluşturur.'],['LTSCALE','Kesik çizgilerin genel ölçeğini ayarlar.'],['AREA','Seçili alanın ölçüsünü hesaplar.'],['COPY','Bir veya daha fazla nesne kopyası üretir.']],SketchUp:[['Select','Modeldeki geometriyi seçer.'],['Line','Noktaları birleştirerek kenarlar çizer.'],['Rectangle','Dikdörtgen yüzey oluşturur.'],['Circle','Dairesel yüzey ve kenar oluşturur.'],['Arc','Yay biçimli kenar çizer.'],['Polygon','Düzenli çokgen oluşturur.'],['Push/Pull','Yüzeyi itip çekerek 3B hacim veya girinti oluşturur.'],['Move','Geometriyi taşır veya kopyalar.'],['Rotate','Geometriyi merkez ve eksen etrafında döndürür.'],['Scale','Geometriyi büyütür veya küçültür.'],['Offset','Yüzey kenarlarından eşit uzaklıklı çevre oluşturur.'],['Eraser','Kenarları siler veya yumuşatır.'],['Paint Bucket','Yüzeylere renk, malzeme veya doku uygular.'],['Orbit','Kamerayı modelin etrafında döndürür.'],['Pan','Görünümü yatay veya dikey kaydırır.'],['Zoom','Kamerayı yakınlaştırır veya uzaklaştırır.'],['Tape Measure','Mesafeleri ölçer ve kılavuz oluşturur.'],['Protractor','Açıları ölçer ve açılı kılavuz oluşturur.'],['Follow Me','Profili yol boyunca süpürerek 3B biçim oluşturur.'],['3D Text','Modele üç boyutlu yazı ekler.'],['Section Plane','Modeli incelemek için kesit düzlemi oluşturur.'],['Make Group','Geometriyi gruplayıp diğerlerinden ayırır.'],['Make Component','Tekrar kullanılabilir bileşen oluşturur.'],['Explode','Grup veya bileşeni düzenlenebilir geometriye açar.'],['Intersect Faces','Kesişen geometrilerden yeni kenarlar oluşturur.'],['Soften/Smooth Edges','Kenarları yumuşatır veya gizler.'],['Axes','Model eksenlerini taşır veya yönlendirir.'],['Zoom Extents','Tüm modeli ekrana sığdırır.'],['Hide','Seçili geometriyi geçici gizler.'],['Unhide','Gizli geometriyi yeniden gösterir.'],['Lock','Geometriyi düzenlemeye karşı kilitler.'],['Flip Along','Geometriyi seçilen eksene göre aynalar.'],['Outer Shell','Katıların dış kabuğunu birleştirir.'],['Union','Katıların hacimlerini birleştirir.'],['Subtract','Bir katının hacmini diğerinden çıkarır.'],['Trim','Bir katıyı diğerinin sınırlarına göre keser.'],['Position Camera','Kamerayı seçilen noktaya yerleştirir.'],['Look Around','Kamerayı bulunduğu noktadan çevirir.'],['Walk','Model içinde yürüyüş benzeri hareket sağlar.'],['Outliner','Grupları ve bileşenleri hiyerarşik listede yönetir.'],['Tags','Geometriyi etiketlerle düzenler.'],['Scenes','Kamera ve görünüm durumlarını kaydeder.'],['Shadows','Modelde güneş gölgelerini gösterir.'],['Styles','Kenar, yüzey ve arka plan görünümünü yönetir.'],['Model Info','Birim ve model ayarlarını yönetir.'],['Entity Info','Seçili nesnenin özelliklerini gösterir.'],['Dimension','Modelde ölçü açıklaması ekler.'],['Solid Tools','Katı modeller üzerinde birleştirme ve kesme işlemleri yapar.'],['Match Photo','Model görünümünü fotoğraf perspektifiyle eşleştirir.'],['Extension Warehouse','SketchUp eklentilerini bulup kurar.']]};
-const pool=[];for(const [cat,items] of Object.entries(data))items.forEach(([tool,desc],i)=>{const wrong=items.filter((_,j)=>j!==i);const forms=[`${tool} aracı/komutu ne işe yarar?`,`Bir model veya çizimde ${tool} kullanarak hangi işlemi yaparsın?`,`${desc} Bu işlem için hangi araç/komut kullanılır?`,`${tool} seçeneğinin temel görevi nedir?`];for(let v=0;v<4;v++){const answer=v===2?tool:desc;const opts=v===2?[tool,...shuffle(wrong).slice(0,3).map(x=>x[0])]:[desc,...shuffle(wrong).slice(0,3).map(x=>x[1])];pool.push({cat,question:forms[v],answer,options:opts})}});
-function shuffle(a){a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}let category='all',list=[],index=0,points=0,locked=false;const $=id=>document.getElementById(id);function key(){return'kalecad-seen-blue-'+category}function remaining(){let seen=[];try{seen=JSON.parse(localStorage.getItem(key())||'[]')}catch{}return pool.filter(q=>(category==='all'||q.cat===category)&&!seen.includes(q.question))}function setCategory(c){category=c;document.querySelectorAll('[data-cat]').forEach(b=>b.classList.toggle('selected',b.dataset.cat===c));$('poolNote').textContent=`${pool.length} farklı soru • ${remaining().length} henüz sorulmadı`}function screen(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id))}function start(){let r=remaining();if(r.length<20){try{localStorage.removeItem(key())}catch{}r=pool.filter(q=>category==='all'||q.cat===category)}list=shuffle(r).slice(0,20);let seen=[];try{seen=JSON.parse(localStorage.getItem(key())||'[]')}catch{}try{localStorage.setItem(key(),JSON.stringify([...new Set([...seen,...list.map(q=>q.question)])]))}catch{}index=points=0;screen('quiz');render()}function render(){locked=false;const q=list[index];$('qCount').textContent=`Soru ${index+1} / ${list.length}`;$('question').textContent=q.question;$('score').textContent=`Puan: ${points}`;$('bar').style.width=`${index/list.length*100}%`;$('feedback').textContent='';$('feedback').className='feedback';$('next').classList.add('hidden');$('answers').innerHTML='';shuffle(q.options).forEach(a=>{const b=document.createElement('button');b.className='answer';b.textContent=a;b.onclick=()=>choose(b,a,q.answer);$('answers').appendChild(b)})}function celebration(){const layer=$('celebration');layer.replaceChildren();const logos=['<svg viewBox="0 0 48 48"><path fill="#ef4444" d="M24 3 46 43H35L24 22 13 43H2z"/><path fill="white" d="M19 34h10l-5-9z"/></svg>','<svg viewBox="0 0 48 48"><path fill="#78bd43" d="M24 3 44 14v21L24 46 4 35V14z"/><path fill="#fff" d="m15 15 9-5 9 5-9 5zm0 10 9 5 9-5v7l-9 5-9-5z"/></svg>'];for(let i=0;i<34;i++){const e=document.createElement('span');e.className='particle';e.style.setProperty('--x',`${(Math.random()-.5)*innerWidth*.9}px`);e.style.setProperty('--y',`${(Math.random()-.5)*innerHeight*.8}px`);e.style.setProperty('--r',`${Math.random()*800-400}deg`);e.style.animationDelay=`${Math.random()*.1}s`;if(i<10){e.innerHTML=logos[i%2];e.style.width='40px';e.style.height='40px'}else{e.style.width='10px';e.style.height='16px';e.style.background=['#5fe4ff','#72a7ff','#ffd36c','#53d7a3','#ff7a7a'][i%5];e.style.borderRadius='3px'}layer.appendChild(e)}setTimeout(()=>layer.replaceChildren(),1400)}function choose(btn,a,correct){if(locked)return;locked=true;document.querySelectorAll('.answer').forEach(b=>{b.disabled=true;if(b.textContent===correct)b.classList.add('correct');if(b===btn&&a!==correct)b.classList.add('wrong')});if(a===correct){points++;$('feedback').textContent='✅ Doğru!';$('feedback').classList.add('good');celebration()}else{$('feedback').textContent=`❌ Yanlış! Doğru cevap: ${correct}`;$('feedback').classList.add('bad')}$('score').textContent=`Puan: ${points}`;$('next').classList.remove('hidden')}function finish(){const pct=Math.round(points/list.length*100);let best=0;try{best=Math.max(Number(localStorage.getItem('kalecad-best-blue')||0),points);localStorage.setItem('kalecad-best-blue',best)}catch{}$('correct').textContent=points;$('wrong').textContent=list.length-points;$('accuracy').textContent=pct+'%';$('best').textContent=best;$('summary').innerHTML=`Bu turda <b>${points} / ${list.length}</b> doğru cevap verdin. Başarı oranı: <b>${pct}%</b>.`;$('level').innerHTML=pct>=80?'<strong>Uzman</strong><br>CAD bilgin çok güçlü — böyle devam et!':pct>=50?'<strong>Orta seviye</strong><br>Biraz daha pratikle uzmanlığa ulaşabilirsin.':'<strong>Kendini geliştirmelisin</strong><br>Yeni bir turla pratik yap; yeni sorular seni bekliyor.';$('bar').style.width='100%';screen('result');setCategory(category)}document.querySelectorAll('[data-cat]').forEach(b=>b.onclick=()=>setCategory(b.dataset.cat));document.querySelectorAll('[data-home]').forEach(b=>b.onclick=()=>{screen('home');setCategory(category)});$('start').onclick=start;$('replay').onclick=start;$('next').onclick=()=>index+1<list.length?(index++,render()):finish();setCategory('all');
-</script></body></html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#101827" />
+  <title>KALECAD | CAD Bilgi Yarışması</title>
+  <style>
+    :root {
+      --bg-1: #0b1220;
+      --bg-2: #111d2a;
+      --panel: rgba(17, 27, 40, 0.96);
+      --line: rgba(100, 150, 220, 0.34);
+      --text: #edf5ff;
+      --muted: #bfd2eb;
+      --blue: #3d8bfd;
+      --cyan: #64d9ff;
+      --green: #59dba4;
+      --red: #ff7d73;
+      --gold: #ffd36c;
+      --shadow: rgba(0, 0, 0, 0.38);
+    }
+
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      height: 100%;
+      font-family: Inter, "Segoe UI", Tahoma, sans-serif;
+      background: radial-gradient(circle at top, #214a78 0%, var(--bg-1) 48%, #070d17 100%);
+      color: var(--text);
+    }
+    body {
+      display: grid;
+      place-items: center;
+      padding: clamp(10px, 2.3vw, 24px);
+    }
+
+    .app {
+      width: min(100%, 980px);
+      min-height: min(92vh, 900px);
+      background: rgba(17, 27, 40, 0.96);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      box-shadow: 0 28px 80px rgba(0, 0, 0, 0.38);
+      position: relative;
+      overflow: hidden;
+      isolation: isolate;
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 18px 22px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(180deg, rgba(16, 28, 42, 0.98), rgba(16, 28, 42, 0.74));
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: rgba(54, 123, 255, 0.2);
+      border: 1px solid rgba(130, 180, 255, 0.7);
+      box-shadow: inset 0 0 20px rgba(95, 169, 255, 0.18);
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 36px;
+      height: 36px;
+      display: block;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.35rem, 3vw, 2.1rem);
+      letter-spacing: 0.08em;
+      line-height: 1.1;
+      font-weight: 800;
+    }
+
+    .tag {
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--muted);
+      font-size: 0.76rem;
+      white-space: nowrap;
+      font-weight: 700;
+    }
+
+    .screen {
+      display: none;
+      padding: clamp(18px, 3vw, 32px);
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 12px 10px 6px 10px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: var(--cyan);
+      letter-spacing: 0.16em;
+      font-weight: 900;
+      font-size: 0.72rem;
+    }
+
+    .hero h2 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 4rem);
+      line-height: 0.96;
+      letter-spacing: -0.05em;
+    }
+
+    .hero h2 span {
+      color: var(--gold);
+    }
+
+    .hero p {
+      margin: 18px auto 0;
+      max-width: 650px;
+      font-size: 1.02rem;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .category-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 26px;
+    }
+
+    .btn, .primary {
+      appearance: none;
+      border: 1px solid rgba(200,220,255,0.12);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      border-radius: 12px;
+      padding: 11px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: 120ms ease;
+      touch-action: manipulation;
+    }
+
+    .btn:hover, .primary:hover { transform: translateY(-1px); }
+    .btn.selected {
+      background: linear-gradient(180deg, rgba(61, 139, 253, 0.28), rgba(100, 217, 255, 0.1));
+      border-color: rgba(100,217,255,0.4);
+      box-shadow: 0 0 0 1px rgba(100,217,255,0.2);
+    }
+
+    .primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 180px;
+      padding: 14px 22px;
+      border: 0;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--blue), var(--cyan));
+      color: #051922;
+      font-weight: 900;
+      letter-spacing: 0.04em;
+      box-shadow: 0 12px 26px rgba(100,217,255,0.25);
+    }
+
+    .center-button {
+      display: flex;
+      justify-content: center;
+      margin-top: 22px;
+    }
+
+    .pool-note {
+      text-align: center;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .stats {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+      color: var(--muted);
+      font-size: 0.94rem;
+      font-weight: 700;
+    }
+
+    .track {
+      width: 100%;
+      height: 12px;
+      background: rgba(255,255,255,0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.08);
+      margin-bottom: 18px;
+    }
+
+    .bar {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green), var(--cyan), var(--blue));
+      transition: width 200ms ease;
+    }
+
+    .question {
+      margin: 0 0 18px;
+      font-size: clamp(1.4rem, 3vw, 2.15rem);
+      line-height: 1.38;
+    }
+
+    .answers {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+      gap: 12px;
+    }
+
+    .answer {
+      display: block;
+      width: 100%;
+      min-height: 68px;
+      text-align: left;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      color: var(--text);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      line-height: 1.4;
+      transition: 120ms ease;
+    }
+
+    .answer:hover:not(:disabled) {
+      border-color: rgba(100,217,255,0.38);
+      background: rgba(100,217,255,0.08);
+    }
+
+    .answer.correct {
+      background: rgba(89, 219, 164, 0.2);
+      border-color: rgba(89, 219, 164, 0.8);
+    }
+
+    .answer.wrong {
+      background: rgba(255, 125, 115, 0.18);
+      border-color: rgba(255, 125, 115, 0.7);
+    }
+
+    .answer:disabled {
+      cursor: default;
+      opacity: 1;
+    }
+
+    .feedback {
+      min-height: 28px;
+      margin: 18px 0 0;
+      font-weight: 800;
+      line-height: 1.5;
+      font-size: 1.02rem;
+    }
+
+    .feedback.good { color: var(--green); }
+    .feedback.bad { color: var(--red); }
+
+    .controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 18px;
+    }
+
+    .hidden { display: none !important; }
+
+    .level {
+      margin: 16px 0 18px;
+      padding: 18px 18px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(100,217,255,0.4);
+      background: rgba(100,217,255,0.08);
+      line-height: 1.6;
+      font-size: 1rem;
+    }
+
+    .level strong {
+      color: var(--gold);
+      font-size: 1.35rem;
+    }
+
+    .result {
+      margin: 16px 0 20px;
+      padding: 20px;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      font-size: 1.04rem;
+      line-height: 1.7;
+    }
+
+    .scoreboard {
+      margin-top: 10px;
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 12px;
+    }
+
+    .scoreboard th, .scoreboard td {
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 12px;
+      text-align: left;
+    }
+
+    .scoreboard th {
+      background: rgba(255,255,255,0.04);
+    }
+
+    .scoreboard td:nth-child(2) {
+      text-align: right;
+      font-weight: 800;
+    }
+
+    .celebration {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 40;
+    }
+
+    .particle {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      animation: burst 1.3s ease-out forwards;
+    }
+
+    @keyframes burst {
+      0% {
+        transform: translate(-50%, -50%) scale(0.2);
+        opacity: 0;
+      }
+      18% {
+        opacity: 1;
+      }
+      100% {
+        transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y))) rotate(var(--r));
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .header {
+        padding: 14px 16px;
+      }
+      .answers {
+        grid-template-columns: 1fr;
+      }
+      .controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .controls .btn, .controls .primary {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="logo-mark" aria-label="KALECAD mavi kale logo">
+          <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mavi kale ikonu">
+            <path d="M8 55V25l8-6 8 6V13l8-7 8 7v12l8-6 8 6v30H8Z" fill="#2c8cff" stroke="#bfe7ff" stroke-width="2"/>
+            <path d="M14 30h7v8h-7zm15-12h7v8h-7zm15 12h7v8h-7z" fill="#dff5ff"/>
+            <path d="M26 58V39a6 6 0 0 1 12 0v19Z" fill="#0d2f58" stroke="#bfe7ff" stroke-width="2"/>
+            <path d="M5 56h54" stroke="#bfe7ff" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1>KALECAD</h1>
+      </div>
+      <span class="tag">AutoCAD • SketchUp</span>
+    </header>
+
+    <section id="home" class="screen active">
+      <div class="hero">
+        <p class="eyebrow">⚡ ÇİZİM BİLGİNİ TEST ET</p>
+        <h2>Komutları biliyor<br><span>musun?</span></h2>
+        <p>Hızlı, eğlenceli ve 200+ soruluk CAD yarışmasına hazır mısın? Karışık moddan başlayıp hızla puan topla.</p>
+      </div>
+
+      <div class="category-row" aria-label="Kategori seçimi">
+        <button class="btn selected" data-cat="all" type="button">Karışık</button>
+        <button class="btn" data-cat="AutoCAD" type="button">AutoCAD</button>
+        <button class="btn" data-cat="SketchUp" type="button">SketchUp</button>
+      </div>
+
+      <p class="pool-note" id="poolNote"></p>
+
+      <div class="center-button">
+        <button class="primary" id="start" type="button">Başla</button>
+      </div>
+    </section>
+
+    <section id="quiz" class="screen">
+      <div class="stats">
+        <span id="qCount">Soru 1 / 20</span>
+        <span id="score">Puan: 0</span>
+      </div>
+      <div class="track"><div class="bar" id="bar"></div></div>
+      <h2 class="question" id="question"></h2>
+      <div class="answers" id="answers"></div>
+      <p class="feedback" id="feedback" aria-live="polite"></p>
+      <div class="controls">
+        <button class="primary hidden" id="next" type="button">Sonraki soru</button>
+        <button class="btn" data-home type="button">Ana menü</button>
+      </div>
+    </section>
+
+    <section id="result" class="screen">
+      <h2>🏁 Tur tamamlandı!</h2>
+      <div class="level" id="levelText"></div>
+      <div class="result" id="resultText"></div>
+      <table class="scoreboard" aria-label="Skor tablosu">
+        <thead>
+          <tr><th>Gösterge</th><th>Sonuç</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Doğru</td><td id="correctCount">0</td></tr>
+          <tr><td>Yanlış</td><td id="wrongCount">0</td></tr>
+          <tr><td>Başarı</td><td id="accuracy">0%</td></tr>
+          <tr><td>Rekor</td><td id="bestStat">0</td></tr>
+        </tbody>
+      </table>
+      <div class="center-button"><button class="primary" id="replay" type="button">Tekrar oyna</button></div>
+      <div class="center-button"><button class="btn" data-home type="button">Ana menü</button></div>
+    </section>
+  </main>
+
+  <div class="celebration" id="celebration" aria-hidden="true"></div>
+
+  <script>
+    const base = {
+      AutoCAD: [
+        ['LINE','İki veya daha fazla nokta arasında düz çizgi çizer.'],
+        ['PLINE','Birbirine bağlı çizgi ve yay parçalarından tek bir çoklu çizgi oluşturur.'],
+        ['CIRCLE','Merkezi ve yarıçapı/çapı belirlenen daire çizer.'],
+        ['ARC','Bir dairenin bir bölümünü, yani yayı çizer.'],
+        ['RECTANG','Dikdörtgen biçiminde kapalı çoklu çizgi oluşturur.'],
+        ['POLYGON','Eşit kenarlı kapalı çokgen çizer.'],
+        ['MOVE','Seçili nesneleri belirlenen konuma taşır.'],
+        ['COPY','Seçili nesnelerin örnek kopyasını oluşturur.'],
+        ['ROTATE','Nesneleri belirli bir merkez etrafında döndürür.'],
+        ['MIRROR','Nesnelerin belirlenen eksene göre simetriğini oluşturur.'],
+        ['SCALE','Nesneleri büyütür veya küçültür.'],
+        ['OFFSET','Bir nesneye belirli mesafede paralel kopya oluşturur.'],
+        ['TRIM','Nesneleri kesme sınırlarında kırpar.'],
+        ['EXTEND','Nesneleri başka bir nesnenin sınırına kadar uzatır.'],
+        ['FILLET','İki nesne arasına yuvarlak köşe ekler.'],
+        ['CHAMFER','İki çizim parçasının köşesine eğimli kesim yapar.'],
+        ['ARRAY','Nesneyi düzenli tekrarlarla çoğaltır.'],
+        ['HATCH','Kapalı alanı tarama veya dolgu ile doldurur.'],
+        ['ERASE','Seçili nesneleri siler.'],
+        ['EXPLODE','Birleşik nesneyi parçalarına ayırır.'],
+        ['JOIN','Uyumlu nesneleri tek bir nesne içinde birleştirir.'],
+        ['ALIGN','Nesneleri belirli noktalara göre hizalar.'],
+        ['DIM','Çizime ölçü açıklamaları ekler.'],
+        ['DIST','İki nokta arasındaki mesafeyi ölçer.'],
+        ['AREA','Kapalı alanların alanını ve çevresini hesaplar.'],
+        ['LAYER','Çizim katmanlarını yönetir.'],
+        ['BLOCK','Nesneleri tekrar kullanılabilir blok haline getirir.'],
+        ['ZOOM','Çizim görünümünü yakınlaştırır veya uzaklaştırır.'],
+        ['PAN','Çizim görünümünü kaydırır.'],
+        ['OSNAP','Nokta, merkez ve kesişim gibi hassas noktalara yakalar.'],
+        ['ORTHO','İmleç hareketini dikey ve yatay eksenlerle sınırlar.'],
+        ['MATCHPROP','Bir nesnenin özelliklerini başka nesneye aktarır.'],
+        ['PROPERTIES','Seçili nesnelerin özelliklerini görüntüler ve düzenler.'],
+        ['TEXT','Tek satırlı yazı ekler.'],
+        ['MTEXT','Birden fazla satırlı ve biçimlendirilmiş metin oluşturur.'],
+        ['LEADER','Açıklama için yönlendirici çizgi ekler.'],
+        ['DIMSTYLE','Ölçülerin görünümünü ve formatını yönetir.'],
+        ['PURGE','Kullanılmayan tanımları çizimden temizler.'],
+        ['BREAK','Bir nesnenin bölümünü keser veya ayırır.'],
+        ['UCS','Kullanıcı koordinat sistemini ayarlar.'],
+        ['POLAR','Açı tabanlı yönlendirme ile çizim yapmayı kolaylaştırır.'],
+        ['XREF','Başka bir çizimi dış referans olarak bağlar.'],
+        ['REGEN','Ekran görünümünü yeniden hesaplar.'],
+        ['BOUNDARY','Kapalı alan sınırından nesne oluşturur.'],
+        ['LTSCALE','Kesik çizgilerin ölçeğini ayarlar.'],
+        ['VIEW','Farklı görünüm ayarlarını kaydeder ve yönetir.'],
+        ['SNAP','İmleci belirli aralıklara kilitler.']
+      ],
+      SketchUp: [
+        ['Select','Modeldeki geometriyi seçer.'],
+        ['Line','Noktaları birleştirerek kenar ve yüzey sınırları çizer.'],
+        ['Rectangle','Dikdörtgen yüzey oluşturur.'],
+        ['Circle','Dairesel yüzey veya kenar oluşturur.'],
+        ['Arc','Yay biçimli kenar çizer.'],
+        ['Polygon','Düzenli çokgen oluşturur.'],
+        ['Push/Pull','Yüzeyi itip çekerek 3B hacim veya girinti oluşturur.'],
+        ['Move','Geometriyi taşıma ve kopyalama işlemi için kullanılır.'],
+        ['Rotate','Geometriyi merkez ve eksen etrafında döndürür.'],
+        ['Scale','Geometriyi büyütür veya küçültür.'],
+        ['Offset','Yüzey kenarlarından eşit uzaklıklı çevre oluşturur.'],
+        ['Eraser','Kenarları siler veya yumuşatır.'],
+        ['Paint Bucket','Yüzeylere renk, malzeme veya doku uygular.'],
+        ['Orbit','Kamerayı model etrafında döndürür.'],
+        ['Pan','Görünümü yatay veya dikey kaydırır.'],
+        ['Zoom','Kamerayı yakınlaştırır veya uzaklaştırır.'],
+        ['Tape Measure','Mesafeleri ölçer ve kılavuz oluşturur.'],
+        ['Protractor','Açıları ölçer ve açılı kılavuz oluşturur.'],
+        ['Follow Me','Profili yol boyunca süpürerek 3B biçim oluşturur.'],
+        ['3D Text','Modele üç boyutlu yazı ekler.'],
+        ['Section Plane','Modeli incelemek için kesit düzlemi oluşturur.'],
+        ['Make Group','Geometriyi gruplayıp diğerlerinden ayırır.'],
+        ['Make Component','Tekrar kullanılabilir bileşen oluşturur.'],
+        ['Explode','Grup veya bileşeni düzenlenebilir geometriye açar.'],
+        ['Intersect Faces','Kesişen geometrilerden yeni kenarlar oluşturur.'],
+        ['Soften/Smooth Edges','Kenarları yumuşatır veya gizler.'],
+        ['Axes','Modelin eksenlerini taşır ve yönlendirir.'],
+        ['Zoom Extents','Tüm modeli ekrana sığdırır.'],
+        ['Hide','Seçili geometriyi geçici olarak gizler.'],
+        ['Unhide','Gizli geometriyi geri gösterir.'],
+        ['Lock','Geometriyi düzenlemeye karşı kilitler.'],
+        ['Flip Along','Geometriyi seçilen eksene göre aynalar.'],
+        ['Outer Shell','Katıların dış kabuğunu birleştirir.'],
+        ['Union','Katıların hacimlerini birleştirir.'],
+        ['Subtract','Bir katının hacmini diğerinden çıkarır.'],
+        ['Trim','Bir katıyı diğerinin sınırlarına göre keser.'],
+        ['Position Camera','Kamerayı istenilen noktaya yerleştirir.'],
+        ['Look Around','Model etrafında kamera bakışını çevirir.'],
+        ['Walk','Model içinde yürüyüş benzeri hareket sağlar.'],
+        ['Outliner','Grupları ve bileşenleri listede yönetir.'],
+        ['Tags','Geometriyi etiketlerle düzenler.'],
+        ['Scenes','Kamera ve görünüm durumlarını kaydeder.'],
+        ['Shadows','Güneş gölgelerini gösterir.'],
+        ['Styles','Kenar, yüzey ve arka plan görünümünü yönetir.'],
+        ['Model Info','Birim ve model ayarlarını yönetir.'],
+        ['Entity Info','Seçili nesnenin özelliklerini gösterir.'],
+        ['Dimension','Modelde ölçü açıklaması ekler.'],
+        ['Match Photo','Model görünümünü fotoğraf perspektifiyle eşleştirir.'],
+        ['Extension Warehouse','SketchUp eklentilerini kurup yönetir.']
+      ]
+    };
+
+    function shuffle(arr) {
+      const out = [...arr];
+      for (let i = out.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [out[i], out[j]] = [out[j], out[i]];
+      }
+      return out;
+    }
+
+    const pool = [];
+    for (const [category, items] of Object.entries(base)) {
+      items.forEach(([tool, description], index) => {
+        const distractors = shuffle(items.filter((_, i) => i !== index).map(([name]) => name)).slice(0, 3);
+        const types = [
+          { q: `${tool} komutu ne işe yarar?`, a: description, options: [description, ...shuffle(items.filter((_, i) => i !== index).map(([, text]) => text)).slice(0, 3)] },
+          { q: `Aşağıdakilerden hangisi ${tool} komutunun kullanım amacıdır?`, a: description, options: [description, ...shuffle(items.filter((_, i) => i !== index).map(([, text]) => text)).slice(0, 3)] },
+          { q: `${tool} komutunu kullanarak hangi işlem yapılır?`, a: description, options: [description, ...shuffle(items.filter((_, i) => i !== index).map(([, text]) => text)).slice(0, 3)] },
+          { q: `${tool} için en doğru tanım hangisidir?`, a: description, options: [description, ...shuffle(items.filter((_, i) => i !== index).map(([, text]) => text)).slice(0, 3)] }
+        ];
+        types.forEach(({ q, a, options }) => {
+          pool.push({ category, question: q, answer: a, options: shuffle(options) });
+        });
+      });
+    }
+
+    let category = 'all';
+    let list = [];
+    let index = 0;
+    let points = 0;
+    let locked = false;
+
+    const screens = [...document.querySelectorAll('.screen')];
+    const qCount = document.getElementById('qCount');
+    const score = document.getElementById('score');
+    const questionEl = document.getElementById('question');
+    const answersWrap = document.getElementById('answers');
+    const feedback = document.getElementById('feedback');
+    const nextBtn = document.getElementById('next');
+    const bar = document.getElementById('bar');
+    const poolNote = document.getElementById('poolNote');
+    const resultText = document.getElementById('resultText');
+    const levelText = document.getElementById('levelText');
+    const correctCount = document.getElementById('correctCount');
+    const wrongCount = document.getElementById('wrongCount');
+    const accuracyEl = document.getElementById('accuracy');
+    const bestStat = document.getElementById('bestStat');
+
+    function showScreen(id) {
+      screens.forEach(screen => screen.classList.toggle('active', screen.id === id));
+    }
+
+    function getSeenKey() {
+      return `kalecad_seen_${category}`;
+    }
+
+    function getRemaining() {
+      let seen = [];
+      try {
+        seen = JSON.parse(localStorage.getItem(getSeenKey()) || '[]');
+      } catch {}
+      return pool.filter(item => category === 'all' ? true : item.category === category).filter(item => !seen.includes(item.question));
+    }
+
+    function updatePoolNote() {
+      poolNote.textContent = `${pool.length} farklı soru • ${getRemaining().length} henüz sorulmadı`;
+    }
+
+    function setCategory(cat) {
+      category = cat;
+      document.querySelectorAll('[data-cat]').forEach(btn => btn.classList.toggle('selected', btn.dataset.cat === cat));
+      updatePoolNote();
+    }
+
+    function startQuiz() {
+      let remaining = getRemaining();
+      if (remaining.length < 20) {
+        try { localStorage.removeItem(getSeenKey()); } catch {}
+        remaining = pool.filter(item => category === 'all' ? true : item.category === category);
+      }
+      list = shuffle(remaining).slice(0, 20);
+
+      const seen = new Set(JSON.parse(localStorage.getItem(getSeenKey()) || '[]'));
+      list.forEach(item => seen.add(item.question));
+      try { localStorage.setItem(getSeenKey(), JSON.stringify([...seen])); } catch {}
+
+      index = 0;
+      points = 0;
+      locked = false;
+      showScreen('quiz');
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      locked = false;
+      const item = list[index];
+      if (!item) return;
+
+      qCount.textContent = `Soru ${index + 1} / ${list.length}`;
+      questionEl.textContent = item.question;
+      score.textContent = `Puan: ${points}`;
+      feedback.textContent = '';
+      feedback.className = 'feedback';
+      nextBtn.classList.add('hidden');
+      bar.style.width = `${(index / list.length) * 100}%`;
+      answersWrap.innerHTML = '';
+
+      shuffle(item.options).forEach(option => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'answer';
+        button.textContent = option;
+        button.addEventListener('click', () => chooseAnswer(button, option, item.answer));
+        answersWrap.appendChild(button);
+      });
+    }
+
+    function chooseAnswer(button, selected, correct) {
+      if (locked) return;
+      locked = true;
+
+      [...document.querySelectorAll('.answer')].forEach(btn => {
+        btn.disabled = true;
+        const text = btn.textContent.trim();
+        if (text === correct) btn.classList.add('correct');
+        if (text === selected && text !== correct) btn.classList.add('wrong');
+      });
+
+      if (selected === correct) {
+        points += 1;
+        feedback.textContent = '✅ Doğru!';
+        feedback.classList.add('good');
+        burstConfetti();
+      } else {
+        feedback.textContent = `❌ Yanlış! Doğru cevap: ${correct}`;
+        feedback.classList.add('bad');
+      }
+
+      score.textContent = `Puan: ${points}`;
+      nextBtn.classList.remove('hidden');
+    }
+
+    function finishRound() {
+      const total = list.length;
+      const correct = points;
+      const wrong = total - correct;
+      const ratio = Math.round((correct / total) * 100);
+
+      const bestStored = Number(localStorage.getItem('kalecad_best_blue') || '0');
+      const best = Math.max(bestStored, correct);
+      localStorage.setItem('kalecad_best_blue', String(best));
+
+      correctCount.textContent = String(correct);
+      wrongCount.textContent = String(wrong);
+      accuracyEl.textContent = `${ratio}%`;
+      bestStat.textContent = String(best);
+
+      if (ratio >= 80) {
+        levelText.innerHTML = '<strong>Uzman</strong><br>CAD bilgin çok güçlü. Böyle devam et!';
+      } else if (ratio >= 50) {
+        levelText.innerHTML = '<strong>Orta Seviye</strong><br>Güçlü ilerleyiş var. Biraz daha pratikle uzmanlığa gidersin.';
+      } else {
+        levelText.innerHTML = '<strong>Kendini geliştirmelisin</strong><br>Yeni sorularla tekrar dene; her tur daha güçlü olacaksın.';
+      }
+
+      resultText.innerHTML = `Bu turda <strong>${correct} / ${total}</strong> doğru cevap verdin. Başarı oranı: <strong>${ratio}%</strong>.`;
+      showScreen('result');
+    }
+
+    function burstConfetti() {
+      const layer = document.getElementById('celebration');
+      layer.innerHTML = '';
+      const colors = ['#5fe4ff', '#72a7ff', '#ffd36c', '#53d7a3', '#ff7a7a', '#ffffff'];
+      const logos = [
+        '<svg viewBox="0 0 64 64" width="36" height="36" xmlns="http://www.w3.org/2000/svg"><path d="M8 55V25l8-6 8 6V13l8-7 8 7v12l8-6 8 6v30H8Z" fill="#2c8cff" stroke="#bfe7ff" stroke-width="2"/><path d="M14 30h7v8h-7zm15-12h7v8h-7zm15 12h7v8h-7z" fill="#dff5ff"/><path d="M26 58V39a6 6 0 0 1 12 0v19Z" fill="#0d2f58" stroke="#bfe7ff" stroke-width="2"/><path d="M5 56h54" stroke="#bfe7ff" stroke-width="2.5" stroke-linecap="round"/></svg>',
+        '<svg viewBox="0 0 64 64" width="36" height="36" xmlns="http://www.w3.org/2000/svg"><path d="M32 6 54 19v26L32 58 10 45V19z" fill="#3dbb48"/><path d="M32 6v26L10 45V19z" fill="#7dd768"/><path d="M32 32l22-13v26L32 58z" fill="#2f8f37"/><path d="M16 20l16-10 16 10-16 10z" fill="#ebffdb" opacity=".8"/></svg>'
+      ];
+
+      for (let i = 0; i < 24; i++) {
+        const particle = document.createElement('span');
+        particle.className = 'particle';
+        particle.style.setProperty('--x', `${(Math.random() - 0.5) * 500}px`);
+        particle.style.setProperty('--y', `${(Math.random() - 0.5) * 300}px`);
+        particle.style.setProperty('--r', `${(Math.random() - 0.5) * 1000}deg`);
+
+        if (i % 5 === 0) {
+          particle.innerHTML = logos[i % 2];
+          particle.style.width = '40px';
+          particle.style.height = '40px';
+          particle.style.filter = 'drop-shadow(0 0 10px rgba(100,217,255,0.35))';
+        } else {
+          particle.style.width = '10px';
+          particle.style.height = '16px';
+          particle.style.borderRadius = '3px';
+          particle.style.background = colors[i % colors.length];
+        }
+
+        layer.appendChild(particle);
+      }
+
+      setTimeout(() => layer.innerHTML = '', 1400);
+    }
+
+    document.querySelectorAll('[data-cat]').forEach(btn => {
+      btn.addEventListener('click', () => setCategory(btn.dataset.cat));
+    });
+
+    document.querySelectorAll('[data-home]').forEach(btn => {
+      btn.addEventListener('click', () => showScreen('home'));
+    });
+
+    document.getElementById('start').addEventListener('click', startQuiz);
+    document.getElementById('replay').addEventListener('click', startQuiz);
+
+    nextBtn.addEventListener('click', () => {
+      if (index + 1 < list.length) {
+        index += 1;
+        renderQuestion();
+      } else {
+        finishRound();
+      }
+    });
+
+    setCategory('all');
+    updatePoolNote();
+    showScreen('home');
+  </script>
+</body>
+</html>
